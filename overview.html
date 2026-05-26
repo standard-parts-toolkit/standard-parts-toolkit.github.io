@@ -1,0 +1,1717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SPT — Project Overview</title>
+<style>
+  :root {
+    --bg: #f7f8fa;
+    --surface: #ffffff;
+    --surface-2: #f1f3f7;
+    --text: #0f172a;
+    --text-muted: #475569;
+    --text-subtle: #64748b;
+    --border: #e2e8f0;
+    --border-strong: #cbd5e1;
+    --primary: #1e3a8a;
+    --primary-soft: #e0e7ff;
+    --primary-fg: #ffffff;
+    --accent: #d97706;
+    --accent-soft: #fef3c7;
+    --success: #047857;
+    --success-soft: #d1fae5;
+    --warn: #b45309;
+    --warn-soft: #fef3c7;
+    --danger: #b91c1c;
+    --danger-soft: #fee2e2;
+    --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Inter", sans-serif;
+    --radius: 12px;
+    --radius-sm: 8px;
+    --shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(15, 23, 42, 0.06);
+    --shadow-lg: 0 4px 6px -1px rgba(15, 23, 42, 0.05), 0 10px 25px -5px rgba(15, 23, 42, 0.08);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0b1220;
+      --surface: #111a2e;
+      --surface-2: #0e172a;
+      --text: #e6ecf5;
+      --text-muted: #a3afc2;
+      --text-subtle: #7e8ba1;
+      --border: #1f2a44;
+      --border-strong: #2a3856;
+      --primary: #93b4ff;
+      --primary-soft: #1a2547;
+      --primary-fg: #0b1220;
+      --accent: #fbbf24;
+      --accent-soft: #2a210e;
+      --success: #34d399;
+      --success-soft: #102b22;
+      --warn: #fbbf24;
+      --warn-soft: #2a210e;
+      --danger: #f87171;
+      --danger-soft: #2a1414;
+    }
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: var(--primary); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  code {
+    font-family: var(--mono);
+    background: var(--surface-2);
+    padding: 0.1em 0.4em;
+    border-radius: 4px;
+    font-size: 0.9em;
+    border: 1px solid var(--border);
+  }
+  pre {
+    background: var(--surface-2);
+    padding: 1em;
+    border-radius: var(--radius-sm);
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    font-size: 0.85em;
+    line-height: 1.5;
+  }
+  pre code { background: transparent; border: 0; padding: 0; }
+
+  /* Layout */
+  .topbar {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 1.25rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    backdrop-filter: blur(8px);
+    background: color-mix(in srgb, var(--surface) 90%, transparent);
+  }
+  .topbar-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+  .brand { display: flex; align-items: center; gap: 0.75rem; font-weight: 700; font-size: 1.05rem; }
+  .brand-mark {
+    width: 32px; height: 32px;
+    background: var(--primary);
+    color: var(--primary-fg);
+    border-radius: 8px;
+    display: grid; place-items: center;
+    font-weight: 800;
+    font-size: 0.9rem;
+    letter-spacing: -0.02em;
+  }
+  .topbar-meta { color: var(--text-subtle); font-size: 0.875rem; }
+
+  .layout {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 2rem;
+    padding: 2rem;
+  }
+
+  .sidebar {
+    position: sticky;
+    top: 5rem;
+    align-self: start;
+    max-height: calc(100vh - 6rem);
+    overflow-y: auto;
+    padding-right: 1rem;
+  }
+  .sidebar h4 {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-subtle);
+    margin: 1.5rem 0 0.5rem;
+    font-weight: 600;
+  }
+  .sidebar h4:first-child { margin-top: 0; }
+  .sidebar a {
+    display: block;
+    padding: 0.4rem 0.6rem;
+    border-radius: 6px;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    transition: background 0.15s, color 0.15s;
+  }
+  .sidebar a:hover { background: var(--surface-2); color: var(--text); text-decoration: none; }
+
+  main { min-width: 0; }
+
+  /* Sections */
+  section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow);
+  }
+  section h2 {
+    font-size: 1.5rem;
+    margin: 0 0 0.5rem;
+    letter-spacing: -0.01em;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  section h2 .num {
+    background: var(--primary-soft);
+    color: var(--primary);
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.2rem 0.5rem;
+    border-radius: 6px;
+    font-family: var(--mono);
+  }
+  section h3 {
+    font-size: 1.125rem;
+    margin: 1.75rem 0 0.5rem;
+    letter-spacing: -0.005em;
+  }
+  section > p:first-of-type {
+    color: var(--text-muted);
+    margin-top: 0.25rem;
+  }
+  section h4 {
+    font-size: 0.95rem;
+    margin: 1.25rem 0 0.4rem;
+    color: var(--text);
+  }
+
+  .lede {
+    font-size: 1.05rem;
+    color: var(--text-muted);
+  }
+
+  /* Hero */
+  .hero {
+    background: linear-gradient(135deg, var(--primary) 0%, color-mix(in srgb, var(--primary) 70%, black) 100%);
+    color: white;
+    border: 0;
+    padding: 3rem 2.5rem;
+  }
+  .hero h1 {
+    margin: 0 0 0.5rem;
+    font-size: 2.25rem;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+  }
+  .hero p { margin: 0; opacity: 0.9; font-size: 1.05rem; max-width: 60ch; }
+  .hero .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.75rem;
+    opacity: 0.8;
+    margin-bottom: 0.75rem;
+  }
+  .hero-meta {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+    font-size: 0.875rem;
+    opacity: 0.85;
+    flex-wrap: wrap;
+  }
+  .hero-meta span strong { display: block; opacity: 0.7; font-weight: 500; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; }
+
+  /* Cards */
+  .grid {
+    display: grid;
+    gap: 1rem;
+    margin: 1rem 0;
+  }
+  .grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
+  .grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+  .grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
+  @media (max-width: 900px) {
+    .grid.cols-2, .grid.cols-3, .grid.cols-4 { grid-template-columns: 1fr; }
+  }
+  .card {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 1.25rem;
+  }
+  .card h4 { margin: 0 0 0.4rem; font-size: 1rem; }
+  .card p { margin: 0; color: var(--text-muted); font-size: 0.9rem; }
+
+  .stat-card {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 1rem 1.25rem;
+  }
+  .stat-card .label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-subtle); }
+  .stat-card .value { font-size: 1.05rem; font-weight: 600; margin-top: 0.2rem; }
+
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    font-size: 0.9rem;
+  }
+  th, td {
+    text-align: left;
+    padding: 0.7rem 0.85rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  th {
+    background: var(--surface-2);
+    font-weight: 600;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  tr:last-child td { border-bottom: 0; }
+
+  /* Callouts */
+  .callout {
+    border-radius: var(--radius-sm);
+    padding: 1rem 1.25rem;
+    margin: 1rem 0;
+    border: 1px solid;
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+  .callout .icon {
+    flex-shrink: 0;
+    width: 20px; height: 20px;
+    border-radius: 999px;
+    display: grid; place-items: center;
+    font-size: 0.7rem;
+    font-weight: 800;
+    margin-top: 0.1rem;
+  }
+  .callout p { margin: 0; font-size: 0.92rem; }
+  .callout p + p { margin-top: 0.5rem; }
+  .callout strong { color: inherit; }
+
+  .callout.warn { background: var(--warn-soft); border-color: color-mix(in srgb, var(--warn) 30%, transparent); color: var(--warn); }
+  .callout.warn .icon { background: var(--warn); color: white; }
+  .callout.warn p { color: var(--text); }
+  .callout.warn strong { color: var(--warn); }
+
+  .callout.info { background: var(--primary-soft); border-color: color-mix(in srgb, var(--primary) 30%, transparent); color: var(--primary); }
+  .callout.info .icon { background: var(--primary); color: var(--primary-fg); }
+  .callout.info p { color: var(--text); }
+  .callout.info strong { color: var(--primary); }
+
+  .callout.success { background: var(--success-soft); border-color: color-mix(in srgb, var(--success) 30%, transparent); }
+  .callout.success .icon { background: var(--success); color: white; }
+  .callout.success p { color: var(--text); }
+  .callout.success strong { color: var(--success); }
+
+  .callout.danger { background: var(--danger-soft); border-color: color-mix(in srgb, var(--danger) 30%, transparent); }
+  .callout.danger .icon { background: var(--danger); color: white; }
+  .callout.danger p { color: var(--text); }
+  .callout.danger strong { color: var(--danger); }
+
+  /* Tags */
+  .tag {
+    display: inline-block;
+    padding: 0.15rem 0.55rem;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    background: var(--surface-2);
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+  }
+  .tag.primary { background: var(--primary-soft); color: var(--primary); border-color: color-mix(in srgb, var(--primary) 20%, transparent); }
+  .tag.accent { background: var(--accent-soft); color: var(--accent); border-color: color-mix(in srgb, var(--accent) 25%, transparent); }
+  .tag.success { background: var(--success-soft); color: var(--success); border-color: color-mix(in srgb, var(--success) 25%, transparent); }
+
+  /* Details/Summary */
+  details {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 0;
+    margin: 0.75rem 0;
+    overflow: hidden;
+  }
+  details > summary {
+    padding: 0.85rem 1.1rem;
+    cursor: pointer;
+    font-weight: 600;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    user-select: none;
+  }
+  details > summary::-webkit-details-marker { display: none; }
+  details > summary::after {
+    content: "+";
+    font-family: var(--mono);
+    color: var(--text-subtle);
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: transform 0.15s;
+  }
+  details[open] > summary::after { content: "−"; }
+  details > summary:hover { background: color-mix(in srgb, var(--text-muted) 8%, transparent); }
+  details > .details-body {
+    padding: 0 1.1rem 1.1rem;
+    border-top: 1px solid var(--border);
+  }
+  details summary .meta { font-weight: 400; color: var(--text-subtle); font-size: 0.85rem; }
+
+  /* Lists */
+  ul.clean { list-style: none; padding: 0; margin: 0.5rem 0; }
+  ul.clean li {
+    padding: 0.4rem 0;
+    border-bottom: 1px dashed var(--border);
+    display: flex;
+    gap: 0.6rem;
+    align-items: baseline;
+  }
+  ul.clean li:last-child { border-bottom: 0; }
+  ul.clean li::before {
+    content: "▸";
+    color: var(--primary);
+    font-size: 0.8rem;
+    flex-shrink: 0;
+  }
+
+  ol.steps { padding-left: 0; counter-reset: step; list-style: none; }
+  ol.steps > li {
+    counter-increment: step;
+    padding-left: 2.5rem;
+    position: relative;
+    margin-bottom: 0.85rem;
+  }
+  ol.steps > li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1.6rem;
+    height: 1.6rem;
+    background: var(--primary);
+    color: var(--primary-fg);
+    border-radius: 999px;
+    display: grid; place-items: center;
+    font-weight: 700;
+    font-size: 0.8rem;
+    font-family: var(--mono);
+  }
+
+  /* Faux UI elements for copy previews */
+  .copy-preview {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--primary);
+    border-radius: var(--radius-sm);
+    padding: 1rem 1.25rem;
+    margin: 0.75rem 0;
+  }
+  .copy-preview .eyebrow { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-subtle); font-weight: 600; }
+  .copy-preview .headline { font-size: 1.25rem; font-weight: 700; letter-spacing: -0.01em; margin: 0.3rem 0; }
+  .copy-preview .subhead { color: var(--text-muted); margin: 0; }
+
+  .btn-row { display: flex; gap: 0.5rem; margin-top: 0.85rem; flex-wrap: wrap; }
+  .btn {
+    display: inline-block;
+    padding: 0.45rem 1rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .btn.primary { background: var(--primary); color: var(--primary-fg); }
+  .btn.secondary { border: 1px solid var(--border-strong); color: var(--text); background: var(--surface); }
+
+  hr { border: 0; border-top: 1px solid var(--border); margin: 2rem 0; }
+
+  /* Phase timeline */
+  .phases { display: grid; gap: 0.75rem; margin: 1rem 0; }
+  .phase {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1rem;
+    align-items: start;
+    padding: 1rem 1.25rem;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+  }
+  .phase-marker {
+    width: 2.25rem; height: 2.25rem;
+    background: var(--primary);
+    color: var(--primary-fg);
+    border-radius: 999px;
+    display: grid; place-items: center;
+    font-weight: 800;
+    font-size: 0.9rem;
+    font-family: var(--mono);
+  }
+  .phase-body h4 { margin: 0 0 0.3rem; font-size: 1rem; }
+  .phase-body p { margin: 0; color: var(--text-muted); font-size: 0.9rem; }
+
+  /* Checklist */
+  ul.checklist { list-style: none; padding: 0; margin: 0; }
+  ul.checklist li {
+    display: flex;
+    gap: 0.65rem;
+    align-items: flex-start;
+    padding: 0.45rem 0;
+    border-bottom: 1px dashed var(--border);
+    font-size: 0.92rem;
+  }
+  ul.checklist li:last-child { border-bottom: 0; }
+  ul.checklist li::before {
+    content: "";
+    flex-shrink: 0;
+    width: 1.1rem;
+    height: 1.1rem;
+    border: 1.5px solid var(--border-strong);
+    border-radius: 4px;
+    margin-top: 0.2rem;
+  }
+
+  blockquote {
+    margin: 1rem 0;
+    padding: 0.6rem 1.1rem;
+    border-left: 3px solid var(--accent);
+    background: var(--accent-soft);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    color: var(--text);
+  }
+  blockquote p { margin: 0; }
+  blockquote cite { display: block; margin-top: 0.4rem; color: var(--text-muted); font-style: normal; font-size: 0.85rem; }
+
+  /* Responsive */
+  @media (max-width: 1000px) {
+    .layout { grid-template-columns: 1fr; padding: 1rem; }
+    .sidebar {
+      position: static;
+      max-height: none;
+      margin-bottom: 1rem;
+      padding-right: 0;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 1rem;
+    }
+    .topbar { padding: 1rem; }
+    .hero { padding: 2rem 1.5rem; }
+    .hero h1 { font-size: 1.6rem; }
+    section { padding: 1.5rem; }
+  }
+
+  @media print {
+    .sidebar, .topbar { display: none; }
+    .layout { grid-template-columns: 1fr; padding: 0; max-width: 100%; }
+    section { box-shadow: none; border: 0; page-break-inside: avoid; }
+    details { border: 0; }
+    details > .details-body { display: block !important; padding: 0; border-top: 0; }
+    details > summary::after { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="brand-mark">SPT</div>
+      <span>SPT — Project Overview</span>
+    </div>
+    <div class="topbar-meta">Draft v2 · Gap-audited against live site</div>
+  </div>
+</div>
+
+<div class="layout">
+
+  <nav class="sidebar">
+    <h4>Proposal</h4>
+    <a href="#hero">Overview</a>
+    <a href="#product">Product context</a>
+    <a href="#audience">Audience & positioning</a>
+    <a href="#stack">Tech stack</a>
+    <a href="#sitemap">Site map & nav</a>
+    <a href="#brand">Brand direction</a>
+    <a href="#functional">Functional requirements</a>
+    <a href="#deployment">Deployment</a>
+    <a href="#phases">Implementation phases</a>
+    <a href="#open-items">Open items</a>
+    <a href="#compliance">Compliance notes</a>
+
+    <h4>Content drafts</h4>
+    <a href="#content-global">Global microcopy</a>
+    <a href="#content-home">Homepage</a>
+    <a href="#content-features">Feature pages</a>
+    <a href="#content-integrations">Integrations</a>
+    <a href="#content-mor">Merchant of Record</a>
+    <a href="#content-pricing">Pricing</a>
+    <a href="#content-customers">Customers</a>
+    <a href="#content-blog">Blog</a>
+    <a href="#content-changelog">Changelog</a>
+    <a href="#content-about">About / Contact / Demo</a>
+    <a href="#content-legal">Legal pages</a>
+    <a href="#content-extras">404 & footer</a>
+    <a href="#content-decisions">Owner decisions</a>
+  </nav>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="hero" id="hero">
+      <div class="eyebrow">Project Proposal · Marketing Website</div>
+      <h1>SPT</h1>
+      <p>An all-in-one Shopify app for selling automotive parts — fitment search, catalog sync, PDP enrichment, price/inventory sync, and order export. This document is the complete implementation brief for the marketing website.</p>
+      <div class="hero-meta">
+        <span><strong>Stack</strong>Astro + Tailwind</span>
+        <span><strong>Hosting</strong>GitHub Pages (custom domain)</span>
+        <span><strong>Audience</strong>Manufacturers (primary) + Retailers</span>
+        <span><strong>CTAs</strong>Book a Demo · Install on Shopify · View Demo Site</span>
+        <span><strong>Operator</strong>No Fixed Plans</span>
+      </div>
+    </section>
+
+    <!-- PRODUCT -->
+    <section id="product">
+      <h2><span class="num">01</span> Product context</h2>
+      <p class="lede"><strong>SPT</strong> (short for <em>Standard Parts Toolkit</em>) bridges the gap between automotive parts data and Shopify storefronts. <strong>Six Shopify-app modules</strong>, <strong>three data sources</strong>, plus a separate <strong>Merchant of Record</strong> service.</p>
+
+      <div class="callout info">
+        <div class="icon">i</div>
+        <div><p><strong>A product of No Fixed Plans.</strong> ShowMeTheParts (operated by Vertical Development) is one of the supported parts-data sources — alongside ACES/PIES and CSV — not a partner or co-operator of SPT. Confirm exact wording with owner before publish.</p></div>
+      </div>
+
+      <h3>Shopify-app modules</h3>
+      <div class="grid cols-3">
+        <div class="card">
+          <h4>YMM Fitment Search</h4>
+          <p>Year-Make-Model search with garage, configurable styling, and result behaviors.</p>
+        </div>
+        <div class="card">
+          <h4>VIN &amp; License-Plate Lookup</h4>
+          <p>Shoppers who don't know Y/M/M find fitting parts by VIN or plate (data-source dependent).</p>
+        </div>
+        <div class="card">
+          <h4>Catalog Parts Sync</h4>
+          <p>Bulk product/variant sync incl. Description, Specs, <strong>Buyer's Guide</strong>, and Item Attributes.</p>
+        </div>
+        <div class="card">
+          <h4>PDP Enrichment</h4>
+          <p>Fitment tables, attribute groups, notes, specs, and <strong>Buyer's Guide</strong> on product pages.</p>
+        </div>
+        <div class="card">
+          <h4>In-Cart Fitment &amp; Fulfillment Handoff</h4>
+          <p>Vehicle/fitment follows the shopper through cart and checkout, lands on the order for fulfillment.</p>
+        </div>
+        <div class="card">
+          <h4>Price &amp; Inventory Sync</h4>
+          <p>Inbound P&amp;I via FTP or email attachments, on your cadence.</p>
+        </div>
+        <div class="card">
+          <h4>Order Export</h4>
+          <p>Outbound delivery to Email, FTP, or HTTP API destinations.</p>
+        </div>
+        <div class="card">
+          <h4>Configuration Layer</h4>
+          <p>Every module configurable for layout, styling, behavior, and data mapping.</p>
+        </div>
+      </div>
+
+      <h3>Separate service: Merchant of Record</h3>
+      <div class="card" style="border-left: 3px solid var(--accent);">
+        <span class="tag accent">Distinct from the app</span>
+        <h4 style="margin-top: 0.5rem;">Sales-tax service</h4>
+        <p>SPT acts as seller of record on your store: collects sales tax across US jurisdictions, remits to states through its own entity, and pays you consolidated monthly with a reconciliation report. Live today on the current site as its own service line.</p>
+      </div>
+
+      <h3>Data sources</h3>
+      <div class="grid cols-3">
+        <div class="card"><h4>ACES / PIES XML</h4><p>Industry-standard fitment + product info. The manufacturer path.</p></div>
+        <div class="card"><h4>ShowMeTheParts API</h4><p>API-driven fitment with 1,000+ supplier brands. The default for retailers.</p></div>
+        <div class="card"><h4>Raw CSV</h4><p>The fastest path for small or custom catalogs.</p></div>
+      </div>
+
+      <div class="callout warn" style="margin-top: 1.5rem;">
+        <div class="icon">!</div>
+        <div>
+          <p><strong>Positioning shift vs. the current site.</strong> The live <code>standardpartstoolkit.com</code> positions the product as <em>a Shopify integration powered by ShowMeTheParts</em>. The new site repositions as <em>data-source agnostic</em> and adds modules not on the current site (CSV, P&amp;I sync, order export, multi-vehicle garage, multi-store).</p>
+          <p><strong>Every capability beyond the current site must be operational at launch, or framed as "coming soon."</strong> Misalignment between marketing copy and shipping product is the biggest launch risk.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- AUDIENCE -->
+    <section id="audience">
+      <h2><span class="num">02</span> Audience &amp; positioning</h2>
+      <p class="lede"><strong>Manufacturer-led, retailer-inclusive.</strong> Homepage hero speaks to parts manufacturers with visible secondary path for single-store retailers.</p>
+
+      <div class="grid cols-2">
+        <div class="card">
+          <span class="tag primary">Primary</span>
+          <h4 style="margin-top:0.5rem">Enterprise parts manufacturers</h4>
+          <p>Maintain ACES/PIES feeds. Want their catalog on Shopify storefronts (theirs or dealers') without a custom build. Care about syndication, scale, security review, SLA.</p>
+        </div>
+        <div class="card">
+          <span class="tag">Secondary</span>
+          <h4 style="margin-top:0.5rem">Automotive retailers</h4>
+          <p>Single-store or small operations selling parts. Need a working YMM search and fitment-aware PDPs in days, not quarters. Often use ShowMeTheParts or CSV.</p>
+        </div>
+      </div>
+
+      <h3>Conversion goals (dual primary + tertiary)</h3>
+      <p>Both primary CTAs appear in the header, hero, end-of-page band, and footer of every page. The tertiary "View Demo Site" link appears where space allows.</p>
+      <div class="btn-row">
+        <span class="btn primary">Book a Demo</span>
+        <span class="btn secondary">Install on Shopify</span>
+        <span class="btn secondary" style="border-style: dashed;">View Demo Site →</span>
+      </div>
+      <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.75rem;">"Book a Demo" routes to a Formspree-backed long-form lead capture (no live calendar at launch). "Install on Shopify" deep-links to the Shopify App Store listing. "View Demo Site" links to the existing live demo store at <code>https://carmenspartdepot.com</code> — preserved from the current marketing site.</p>
+    </section>
+
+    <!-- STACK -->
+    <section id="stack">
+      <h2><span class="num">03</span> Technology stack</h2>
+      <table>
+        <thead><tr><th>Concern</th><th>Choice</th><th>Rationale</th></tr></thead>
+        <tbody>
+          <tr><td>Static site generator</td><td><strong>Astro</strong></td><td>Content-first, ships zero JS by default, MDX, easy GH Pages deploy</td></tr>
+          <tr><td>Styling</td><td><strong>Tailwind CSS</strong> + shadcn-style patterns</td><td>Utility-first with hand-rolled components; add <code>@astrojs/react</code> + real shadcn/ui if interactive islands appear</td></tr>
+          <tr><td>Content authoring</td><td><strong>Markdown / MDX in repo</strong></td><td>Authors commit via Git/GitHub UI; type-safe via Astro Content Collections</td></tr>
+          <tr><td>Forms</td><td><strong>Formspree</strong></td><td>Drop-in endpoint; free tier covers marketing volume</td></tr>
+          <tr><td>Analytics</td><td><strong>Google Analytics 4</strong></td><td>Free, ubiquitous (⚠ requires consent banner — see §11)</td></tr>
+          <tr><td>On-site search</td><td><strong>Pagefind</strong></td><td>Static client-side full-text indexing across blog + marketing</td></tr>
+          <tr><td>Hosting</td><td><strong>GitHub Pages</strong> + custom domain</td><td>Free; CNAME + Actions workflow</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Repository layout</h3>
+<pre><code>/
+├─ src/
+│  ├─ pages/                 # Astro page routes
+│  ├─ layouts/               # Base, Marketing, Blog, Legal
+│  ├─ components/            # Header, Footer, CTA, FeatureCard, LogoWall
+│  ├─ content/
+│  │  ├─ blog/               # .mdx posts
+│  │  ├─ changelog/          # .mdx release notes
+│  │  └─ caseStudies/        # .mdx case studies
+│  ├─ styles/                # Tailwind entry, design tokens
+│  └─ assets/                # Logo, screenshots, OG images
+├─ public/
+│  ├─ CNAME                  # Custom domain
+│  ├─ robots.txt
+│  └─ favicons/
+├─ astro.config.mjs
+├─ tailwind.config.cjs
+└─ .github/workflows/deploy.yml</code></pre>
+    </section>
+
+    <!-- SITEMAP -->
+    <section id="sitemap">
+      <h2><span class="num">04</span> Site map &amp; navigation</h2>
+
+      <h3>Global header</h3>
+      <pre><code>Logo | Features ▾ | Integrations | Merchant of Record | Pricing | Customers | Blog | Knowledge Base ↗ | About    [Book a Demo] [Install on Shopify]</code></pre>
+      <ul class="clean">
+        <li><strong>Features dropdown</strong> lists six sub-pages: YMM Search, Catalog Sync, PDP, <strong>In-Cart Fitment</strong>, P&amp;I Sync, Order Export.</li>
+        <li><strong>Merchant of Record</strong> is its own top-nav item — a distinct service line, not a Shopify-app module.</li>
+        <li><strong>Knowledge Base</strong> is an external link (<code>↗</code>) to <code>https://kb.standardpartstoolkit.com</code>. We don't build new docs; we link to the existing KB.</li>
+      </ul>
+
+      <h3>Page inventory</h3>
+      <table>
+        <thead><tr><th>Path</th><th>Purpose</th><th>Source</th></tr></thead>
+        <tbody>
+          <tr><td><code>/</code></td><td>Homepage — manufacturer-led hero, social proof, feature overview</td><td>Astro page</td></tr>
+          <tr><td><code>/features/</code></td><td>Features overview</td><td>Astro page</td></tr>
+          <tr><td><code>/features/ymm-search/</code></td><td>YMM Fitment Search detail</td><td>Astro page</td></tr>
+          <tr><td><code>/features/catalog-sync/</code></td><td>Catalog Parts Sync detail</td><td>Astro page</td></tr>
+          <tr><td><code>/features/pdp-enrichment/</code></td><td>PDP detail (incl. Buyer's Guide)</td><td>Astro page</td></tr>
+          <tr><td><code>/features/in-cart-fitment/</code></td><td><strong>In-cart fitment + fulfillment handoff</strong></td><td>Astro page</td></tr>
+          <tr><td><code>/features/price-inventory-sync/</code></td><td>P&amp;I sync detail</td><td>Astro page</td></tr>
+          <tr><td><code>/features/order-export/</code></td><td>Order export detail</td><td>Astro page</td></tr>
+          <tr><td><code>/merchant-of-record/</code></td><td><strong>Merchant of Record service (sales tax)</strong></td><td>Astro page</td></tr>
+          <tr><td><code>/integrations/</code></td><td>Data sources index</td><td>Astro page</td></tr>
+          <tr><td><code>/integrations/aces-pies/</code></td><td>ACES/PIES detail</td><td>Astro page</td></tr>
+          <tr><td><code>/integrations/showmetheparts/</code></td><td>ShowMeTheParts detail</td><td>Astro page</td></tr>
+          <tr><td><code>/integrations/csv/</code></td><td>CSV detail</td><td>Astro page</td></tr>
+          <tr><td><code>/pricing/</code></td><td>Pricing tiers</td><td>Astro page</td></tr>
+          <tr><td><code>/customers/</code></td><td>Logo wall + case studies</td><td>Content collection</td></tr>
+          <tr><td><code>/customers/[slug]/</code></td><td>Individual case study</td><td>MDX</td></tr>
+          <tr><td><code>/blog/</code></td><td>Blog index, paginated</td><td>Content collection</td></tr>
+          <tr><td><code>/blog/[slug]/</code></td><td>Blog post</td><td>MDX</td></tr>
+          <tr><td><code>/blog/tags/[tag]/</code></td><td>Tag pages</td><td>Content collection</td></tr>
+          <tr><td><code>/changelog/</code></td><td>Release notes index</td><td>Content collection</td></tr>
+          <tr><td><code>/changelog/[slug]/</code></td><td>Individual release</td><td>MDX</td></tr>
+          <tr><td><code>/about/</code></td><td>About + team</td><td>Astro page</td></tr>
+          <tr><td><code>/contact/</code></td><td>Contact form</td><td>Astro page + Formspree</td></tr>
+          <tr><td><code>/demo/</code></td><td>Book-a-demo form</td><td>Astro page + Formspree</td></tr>
+          <tr><td><code>/legal/privacy/</code></td><td>Privacy Policy</td><td>MDX</td></tr>
+          <tr><td><code>/legal/terms/</code></td><td>Terms of Service</td><td>MDX</td></tr>
+          <tr><td><code>/legal/security/</code></td><td>Security &amp; Data Handling</td><td>MDX</td></tr>
+          <tr><td><code>/404</code></td><td>Custom not-found</td><td>Astro page</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- BRAND -->
+    <section id="brand">
+      <h2><span class="num">05</span> Brand direction</h2>
+      <p class="lede">No existing assets — implementer proposes the full system.</p>
+
+      <div class="grid cols-2">
+        <div class="card">
+          <h4>Logo</h4>
+          <p>Wordmark "SPT" + optional "SPT" monogram for favicon/app icon. SVG sources, light + dark variants.</p>
+        </div>
+        <div class="card">
+          <h4>Color system</h4>
+          <p><strong>Primary:</strong> industrial blue (~<code>#1E3A8A</code>). <strong>Accent:</strong> warm amber / safety-orange for CTAs. <strong>Neutrals:</strong> graphite/steel grey. Implement as Tailwind tokens mirrored to CSS variables so dark mode swaps cleanly.</p>
+        </div>
+        <div class="card">
+          <h4>Typography</h4>
+          <p><strong>Headings:</strong> Inter Tight / Space Grotesk / Manrope. <strong>Body:</strong> Inter at 16–17px. <strong>Mono:</strong> JetBrains Mono. Self-host via <code>@fontsource</code>.</p>
+        </div>
+        <div class="card">
+          <h4>Component conventions</h4>
+          <p>Rounded corners <code>rounded-xl</code>. Soft elevation. Generous whitespace (<code>py-20</code> sections). Solid primary / outlined secondary / ghost tertiary buttons.</p>
+        </div>
+      </div>
+
+      <h3>Imagery</h3>
+      <p>Annotated UI screenshots until real ones exist. <strong>Avoid stock automotive clichés</strong> (hands on steering wheels, generic engines). Prefer abstract data-viz, parts-diagram line art, or real UI.</p>
+    </section>
+
+    <!-- FUNCTIONAL -->
+    <section id="functional">
+      <h2><span class="num">06</span> Functional requirements</h2>
+
+      <div class="grid cols-2">
+        <div class="card">
+          <h4>Dark mode</h4>
+          <p>System-preference aware + manual toggle persisted to <code>localStorage</code>. All colors driven by CSS variables for single-class theme swap.</p>
+        </div>
+        <div class="card">
+          <h4>On-site search</h4>
+          <p>Pagefind built post-build, indexes blog + marketing + changelog. Floating trigger in header (cmd/ctrl-K).</p>
+        </div>
+        <div class="card">
+          <h4>Performance &amp; a11y</h4>
+          <p>Lighthouse ≥95 across Performance, Accessibility, Best Practices, SEO on homepage and one feature page. WCAG 2.1 AA. Keyboard accessible. Skip-to-content link.</p>
+        </div>
+        <div class="card">
+          <h4>Responsive</h4>
+          <p>Mobile-first; Tailwind defaults; verified at 375 / 768 / 1024 / 1440px.</p>
+        </div>
+        <div class="card">
+          <h4>Forms</h4>
+          <p>Single <code>&lt;ContactForm&gt;</code> Astro component accepts <code>formId</code> + field schema; Contact / Demo / Newsletter share one impl. Honeypot + spam heuristic.</p>
+        </div>
+        <div class="card">
+          <h4>Analytics</h4>
+          <p>GA4 loaded via base layout (env-var measurement ID). Track outbound App Store clicks + demo form submits as conversions.</p>
+        </div>
+      </div>
+
+      <h3>SEO</h3>
+      <p><strong>Confirmed:</strong> sitemap.xml (<code>@astrojs/sitemap</code>), robots.txt, canonical URLs.</p>
+
+      <div class="callout warn">
+        <div class="icon">!</div>
+        <div>
+          <p><strong>Strongly recommended additions</strong> (not in original selection but worth defaulting on):</p>
+          <p>Open Graph + Twitter card meta tags per page · JSON-LD structured data (Organization site-wide, BlogPosting on posts, SoftwareApplication on homepage) · RSS / Atom feeds for blog + changelog. All trivial to add in Astro; materially improve social shares and rich-result eligibility.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- DEPLOYMENT -->
+    <section id="deployment">
+      <h2><span class="num">07</span> Deployment</h2>
+      <ol class="steps">
+        <li><strong>Build pipeline.</strong> GitHub Actions on push to <code>main</code>: checkout → Node 20 → <code>npm ci</code> → <code>npm run build</code> → Pagefind index → deploy to <code>gh-pages</code> via <code>actions/deploy-pages</code>.</li>
+        <li><strong>Custom domain.</strong> <code>public/CNAME</code> contains the production domain (suggested: <code>standardpartstoolkit.com</code> — confirm).</li>
+        <li><strong>DNS.</strong> ALIAS/ANAME apex to GH Pages IPs; CNAME <code>www</code> to <code>&lt;org&gt;.github.io</code>.</li>
+        <li><strong>HTTPS.</strong> Enforced via GH Pages settings.</li>
+        <li><strong>Preview environments.</strong> Optional v1.x — PR previews via separate workflow.</li>
+      </ol>
+    </section>
+
+    <!-- PHASES -->
+    <section id="phases">
+      <h2><span class="num">08</span> Implementation phases</h2>
+      <div class="phases">
+        <div class="phase"><div class="phase-marker">1</div><div class="phase-body"><h4>Scaffold &amp; foundations</h4><p>Astro, Tailwind, content collections schemas, base layouts, design tokens, dark mode toggle, GH Actions, CNAME, Pagefind wired.</p></div></div>
+        <div class="phase"><div class="phase-marker">2</div><div class="phase-body"><h4>Brand &amp; components</h4><p>Logo, palette, type system, primitives (button/card/section), header, footer, dual-CTA component.</p></div></div>
+        <div class="phase"><div class="phase-marker">3</div><div class="phase-body"><h4>Marketing pages</h4><p>Homepage, Features overview + <strong>6 sub-pages</strong> (incl. In-Cart Fitment), Integrations index + 3 sub-pages, <strong>Merchant of Record</strong>, Pricing, About, Contact, Demo.</p></div></div>
+        <div class="phase"><div class="phase-marker">4</div><div class="phase-body"><h4>Content surfaces</h4><p>Blog (index/post/tag) + 2 placeholder posts. Changelog + 2 entries. Customers logo wall + 2 case studies.</p></div></div>
+        <div class="phase"><div class="phase-marker">5</div><div class="phase-body"><h4>Forms, analytics, SEO polish</h4><p>Formspree wiring (3 forms), GA4, sitemap, robots, canonical, OG/Twitter, JSON-LD, consent banner, RSS, 404.</p></div></div>
+        <div class="phase"><div class="phase-marker">6</div><div class="phase-body"><h4>Legal &amp; QA</h4><p>Privacy, Terms, Security (templates). Accessibility audit. Lighthouse pass. Placeholder-swap checklist.</p></div></div>
+      </div>
+    </section>
+
+    <!-- OPEN ITEMS -->
+    <section id="open-items">
+      <h2><span class="num">09</span> Open items before kickoff</h2>
+      <p class="lede">Owner must confirm or override these before implementation begins.</p>
+      <h4 style="margin-top: 0.5rem;">Infrastructure &amp; accounts</h4>
+      <ul class="checklist">
+        <li>Final domain name for CNAME (assumes new site replaces current at the same domain)</li>
+        <li><strong>Migration plan</strong> for cutting over from current site to new Astro site (DNS swap, redirect map for deep links)</li>
+        <li>Shopify App Store install URL (placeholder until listed)</li>
+        <li>Formspree project / endpoint IDs (Contact, Demo, Newsletter)</li>
+        <li>GA4 measurement ID</li>
+      </ul>
+
+      <h4>Product positioning &amp; capability</h4>
+      <ul class="checklist">
+        <li><strong>Capability alignment</strong> — every module beyond what is on the current site (CSV, direct ACES/PIES, multi-vehicle garage, P&amp;I sync, order export, multi-store) must be operational at launch or framed as "coming soon"</li>
+        <li>BigCommerce support — the current MoR page lists BigCommerce alongside Shopify. Is MoR multi-platform while the app is Shopify-only?</li>
+        <li>Pricing model — published tiers or "Contact for pricing"; also: MoR pricing model</li>
+      </ul>
+
+      <h4>Brand, identity &amp; assets</h4>
+      <ul class="checklist">
+        <li>Confirm "a product of No Fixed Plans" as canonical About/footer phrasing (ShowMeTheParts is a data source, not a partner)</li>
+        <li>Confirm usage rights for the real Luke Smith / Momentum USA testimonial</li>
+        <li>Confirm <code>https://carmenspartdepot.com</code> stays publicly accessible (used as "View Demo Site")</li>
+        <li>Confirm <code>https://kb.standardpartstoolkit.com</code> stays live and is OK to link from top nav</li>
+        <li>Real company address confirmed: <code>1449 S Michigan Ave STE 13288, Chicago, IL 60605</code></li>
+      </ul>
+
+      <h4>SEO &amp; compliance</h4>
+      <ul class="checklist">
+        <li>Include RSS feeds for blog + changelog? <span class="tag accent">recommended yes</span></li>
+        <li>Include OG cards + JSON-LD despite not being in original selection? <span class="tag accent">recommended yes</span></li>
+        <li>Cookie consent banner (effectively required with GA4 + EU/UK traffic)</li>
+        <li>Email addresses: <code>hello@</code>, <code>support@</code>, <code>privacy@</code>, <code>legal@</code>, <code>security@</code></li>
+        <li>Existing <code>/blog</code> posts — port to new MDX-based blog, or launch with placeholders only?</li>
+        <li>Preserve existing <code>/privacy-policy</code> content as starting point for the new policy</li>
+      </ul>
+    </section>
+
+    <!-- COMPLIANCE -->
+    <section id="compliance">
+      <h2><span class="num">10</span> Compliance &amp; legal notes</h2>
+      <div class="callout danger">
+        <div class="icon">!</div>
+        <div>
+          <p><strong>GA4 + EU/UK traffic requires consent.</strong> GA4 sets cookies and processes IP data classified as personal under GDPR.</p>
+          <p>Owner did not select a consent banner, but implementer should ship a minimal accessible banner that <strong>defers GA4 loading until acceptance</strong> to keep launch defensible. Alternative: swap to cookieless analytics (Plausible / Fathom / Simple Analytics).</p>
+        </div>
+      </div>
+      <div class="callout warn">
+        <div class="icon">!</div>
+        <div>
+          <p><strong>Legal pages are drafts.</strong> Privacy Policy, Terms of Service, and Security &amp; Data Handling are template language with bracketed placeholders. <strong>All three must be reviewed by qualified counsel before launch.</strong></p>
+        </div>
+      </div>
+    </section>
+
+    <hr/>
+
+    <!-- =================== CONTENT DRAFTS =================== -->
+
+    <section>
+      <h2 style="margin-bottom: 0;">Content drafts</h2>
+      <p class="lede">First-pass marketing copy for every page. Voice: confident, technically credible, plain-English, manufacturer-aware, retailer-inclusive. <code>[BRACKETS]</code> mark placeholders the owner must fill before launch.</p>
+    </section>
+
+    <!-- GLOBAL MICROCOPY -->
+    <section id="content-global">
+      <h2><span class="num">C1</span> Global / reusable microcopy</h2>
+
+      <h3>Top nav order</h3>
+      <p style="color: var(--text-muted); font-family: var(--mono); font-size: 0.85rem;">Features ▾ · Integrations · Merchant of Record · Pricing · Customers · Blog · Knowledge Base ↗ · About</p>
+
+      <h3>Button labels</h3>
+      <ul class="clean">
+        <li><strong>Primary CTA:</strong> Book a Demo (alt: "Schedule a Demo Today" — inherited from current site)</li>
+        <li><strong>Secondary CTA:</strong> Install on Shopify</li>
+        <li><strong>Tertiary CTA:</strong> View Demo Site → (links to <code>https://carmenspartdepot.com</code>)</li>
+        <li><strong>Tertiary links:</strong> See how it works · Knowledge Base · Talk to sales · See pricing</li>
+      </ul>
+
+      <h3>Form button states</h3>
+      <ul class="clean">
+        <li><strong>Idle:</strong> Send message / Request a demo / Subscribe</li>
+        <li><strong>Submitting:</strong> Sending…</li>
+        <li><strong>Success:</strong> Thanks — we'll be in touch within one business day.</li>
+        <li><strong>Error:</strong> Something went wrong. Email us at <code>[hello@standardpartstoolkit.com]</code> and we'll sort it out.</li>
+      </ul>
+
+      <h3>Cookie consent banner</h3>
+      <div class="copy-preview">
+        <div class="eyebrow">Cookies</div>
+        <p class="subhead" style="margin-top:0.4rem">We use Google Analytics to understand how the site is used. No marketing or advertising trackers. You can accept or decline — the site works either way.</p>
+        <div class="btn-row">
+          <span class="btn primary">Accept</span>
+          <span class="btn secondary">Decline</span>
+        </div>
+      </div>
+
+      <h3>Header announcement bar (rotating, optional)</h3>
+      <ul class="clean">
+        <li>New: ShowMeTheParts API support — see what's shipped → /changelog</li>
+        <li>Manufacturers: sync your ACES/PIES catalog to Shopify in days, not quarters → /features/catalog-sync</li>
+        <li>Now on the Shopify App Store → [App Store URL]</li>
+      </ul>
+    </section>
+
+    <!-- HOMEPAGE -->
+    <section id="content-home">
+      <h2><span class="num">C2</span> Homepage</h2>
+
+      <h3>Hero</h3>
+      <div class="copy-preview">
+        <div class="eyebrow">Built for automotive parts on Shopify</div>
+        <div class="headline">Your fitment data, live on every Shopify storefront that sells your parts.</div>
+        <p class="subhead"><strong>SPT</strong> — the Standard Parts Toolkit — turns ACES/PIES, ShowMeTheParts, or CSV data into a fast, configurable Year-Make-Model search, an enriched product catalog, in-cart fitment that follows the shopper to checkout, and the price, inventory, and order plumbing your business already runs on. Built to reduce "didn't fit" returns and increase buyer confidence.</p>
+        <div class="btn-row">
+          <span class="btn primary">Book a Demo</span>
+          <span class="btn secondary">Install on Shopify</span>
+          <span class="btn secondary" style="border-style: dashed;">View Demo Site →</span>
+        </div>
+      </div>
+
+      <h3>Compatibility badge row</h3>
+      <p style="color: var(--text-muted); font-size: 0.9rem;">A thin band immediately under the hero:</p>
+      <div class="card" style="text-align: center; padding: 0.85rem;">
+        <strong>Shopify Online Store 2.0 compatible</strong> · <strong>No custom dev work required</strong> · <strong>Powered by ShowMeTheParts (1,000+ supplier brands)</strong>
+      </div>
+
+      <h3>Trust strip</h3>
+      <p style="color: var(--text-muted);"><em>Trusted by manufacturers and retailers selling automotive parts on Shopify.</em> Eight placeholder logos (grayscale silhouettes until real ones land).</p>
+
+      <h3>Six-feature grid</h3>
+      <p><strong>Section heading:</strong> One toolkit, six jobs done right.<br/><strong>Subhead:</strong> Every module is configurable on its own, and every module reads from the same source of truth.</p>
+      <div class="grid cols-2">
+        <div class="card"><h4>YMM Fitment Search + VIN Lookup</h4><p>Year-Make-Model dropdowns, persistent garage, VIN lookup, and license-plate lookup (where supported).</p></div>
+        <div class="card"><h4>Catalog Parts Sync</h4><p>Push your catalog into Shopify products + metafields. Includes Description, Specs, Buyer's Guide, and Item Attributes.</p></div>
+        <div class="card"><h4>PDP Product Information</h4><p>Fitment, attributes, specs, notes, and Buyer's Guide content on every product page — themed to match your store.</p></div>
+        <div class="card" style="border-left: 3px solid var(--accent);"><span class="tag accent">New</span><h4 style="margin-top: 0.5rem;">In-Cart Fitment &amp; Fulfillment Handoff</h4><p>The shopper's vehicle follows them to checkout and to your fulfillment team — ship the right part the first time.</p></div>
+        <div class="card"><h4>Price &amp; Inventory Sync</h4><p>Pull P&amp;I updates from FTP drops or email attachments on the schedule you already use.</p></div>
+        <div class="card"><h4>Order Export</h4><p>Push orders to Email, FTP, or API destinations. Same format your warehouse, ERP, or 3PL already expects.</p></div>
+      </div>
+      <div class="card" style="background: var(--primary-soft); border-color: color-mix(in srgb, var(--primary) 25%, transparent); margin-top: 0.75rem;">
+        <h4 style="color: var(--primary)">Bring your own data</h4>
+        <p style="color: var(--text)">ACES/PIES XML · ShowMeTheParts API · CSV upload. Swap sources later without rebuilding your storefront.</p>
+      </div>
+
+      <h3>Reduce-returns band</h3>
+      <div class="copy-preview" style="border-left-color: var(--accent);">
+        <div class="headline">Stop refunding parts that didn't fit.</div>
+        <p class="subhead">Generic Shopify search doesn't know which serpentine belt fits a 2014 Silverado. SPT does — and it carries that knowledge from the search box, to the product page, to the cart, to the order your warehouse pulls. Real fitment verification at every step means fewer returns, fewer chargebacks, and shoppers who trust your store the second time.</p>
+      </div>
+
+      <h3>Manufacturer vs Retailer split</h3>
+      <div class="grid cols-2">
+        <div class="card">
+          <span class="tag primary">For parts manufacturers</span>
+          <p style="margin-top:0.6rem">You already maintain a clean catalog in ACES/PIES. SPT gets it onto Shopify — yours or your dealers' — without a custom development project. Sync at the cadence you control, syndicate to multiple stores from one source, and export orders back to the systems you already run.</p>
+          <p style="color: var(--primary); font-weight: 600; margin-top: 0.5rem;">See it for manufacturers →</p>
+        </div>
+        <div class="card">
+          <span class="tag">For automotive retailers</span>
+          <p style="margin-top:0.6rem">You sell parts. Your customers need to find the one that fits their truck. Plug in a CSV, ShowMeTheParts, or your supplier's ACES/PIES feed, and your storefront ships with proper fitment search, fitment-aware product pages, and price/inventory sync in days.</p>
+          <p style="color: var(--primary); font-weight: 600; margin-top: 0.5rem;">See it for retailers →</p>
+        </div>
+      </div>
+
+      <h3>By the numbers</h3>
+      <div class="grid cols-3">
+        <div class="stat-card"><div class="label">Part brands available</div><div class="value">1,000+</div></div>
+        <div class="stat-card"><div class="label">Data updates</div><div class="value">24/7</div></div>
+        <div class="stat-card"><div class="label">Hours you spend managing fitment data</div><div class="value">0</div></div>
+      </div>
+
+      <h3>Real testimonial</h3>
+      <blockquote>
+        <p>"Vertical Development has been ingesting and publishing my content for years. Plugging their ShowMeTheParts API service directly into Shopify via Standard Parts Toolkit is a brilliant way to leverage the strengths of both worlds — like chocolate and peanut butter."</p>
+        <cite>— Luke Smith, CEO, Momentum USA, Inc.</cite>
+      </blockquote>
+      <p style="color: var(--text-muted); font-size: 0.85rem;">Pulled from the current live site. Confirm usage rights before publish.</p>
+
+      <h3>Merchant of Record callout</h3>
+      <div class="card" style="border-left: 3px solid var(--accent);">
+        <span class="tag accent">Separate service</span>
+        <h4 style="margin-top: 0.5rem;">Selling across state lines? We can be your merchant of record.</h4>
+        <p>Outsource sales tax collection, remittance, and reporting so you can focus on growing your parts business.</p>
+        <p style="color: var(--primary); font-weight: 600; margin-top: 0.5rem;">Learn about MoR →</p>
+      </div>
+
+      <h3>Final CTA band</h3>
+      <div class="copy-preview">
+        <div class="headline">See it on your data.</div>
+        <p class="subhead">We'll run a short demo against a sample of your ACES/PIES file, ShowMeTheParts feed, or CSV — so you can see real fitment results before you decide.</p>
+        <div class="btn-row">
+          <span class="btn primary">Book a Demo</span>
+          <span class="btn secondary">Install on Shopify</span>
+          <span class="btn secondary" style="border-style: dashed;">View Demo Site →</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section id="content-features">
+      <h2><span class="num">C3</span> Feature pages</h2>
+      <p class="lede">Every feature page follows the same template: Hero → How it works → What you can configure → Data sources → FAQ → Final CTA.</p>
+
+      <h3>Features overview <code>/features/</code></h3>
+      <div class="copy-preview">
+        <div class="headline">Everything a parts store on Shopify needs, in one toolkit.</div>
+        <p class="subhead">SPT covers the five jobs that turn a generic Shopify store into a real automotive parts store — fitment search, catalog sync, product detail enrichment, price/inventory ingestion, and order export. Use the whole toolkit or pick the modules you need.</p>
+      </div>
+
+      <details>
+        <summary>YMM Fitment Search <span class="meta">/features/ymm-search/</span></summary>
+        <div class="details-body">
+          <div class="copy-preview">
+            <div class="eyebrow">Fitment search</div>
+            <div class="headline">A fitment search shoppers actually finish.</div>
+            <p class="subhead">Year, Make, Model — plus Sub-Model, Engine, and the other qualifiers your catalog needs. Configurable order, configurable styling, persistent garage. Built to be fast on storefronts with hundreds of thousands of SKUs.</p>
+          </div>
+          <h4>How it works</h4>
+          <ol class="steps">
+            <li><strong>Connect your data</strong> — ACES/PIES, ShowMeTheParts, or CSV.</li>
+            <li><strong>Choose the qualifiers</strong> — pick which attributes appear as dropdowns and in what order.</li>
+            <li><strong>Drop the widget in</strong> — install on category pages, the home page, or any block your theme supports.</li>
+          </ol>
+          <h4>Three ways to find the right part</h4>
+          <ul class="clean">
+            <li><strong>Year-Make-Model dropdowns</strong> — the standard. Predictable order, fast filtering, persistent garage.</li>
+            <li><strong>VIN Lookup</strong> — shoppers who don't know Y/M/M paste a VIN and we resolve to the right vehicle (data-source dependent — ShowMeTheParts and most ACES/PIES vendor feeds do).</li>
+            <li><strong>License-plate lookup</strong> — faster still for shoppers who only know the state and plate. Data-source dependent.</li>
+          </ul>
+          <h4>What you can configure</h4>
+          <ul class="clean">
+            <li>Dropdown order, labels, required vs optional qualifiers</li>
+            <li>Garage: save vehicles, restore on return, multi-vehicle support</li>
+            <li>VIN and license-plate entry: visible, toggle, or hidden</li>
+            <li>Layout: inline, modal, sidebar, sticky</li>
+            <li>Styling driven by your theme tokens</li>
+            <li>Result behavior: filter current collection, redirect, or both</li>
+            <li>"No fit" handling: hide, dim, or label</li>
+          </ul>
+          <h4>FAQ</h4>
+          <ul class="clean">
+            <li><strong>How fast is it on a large catalog?</strong> The search index is precomputed at sync time, so dropdowns and filtering are constant-time regardless of catalog size.</li>
+            <li><strong>Multi-vehicle garage?</strong> Yes. Persists across sessions for signed-in customers.</li>
+            <li><strong>Works with my theme?</strong> Yes. Installs as a Shopify block; inherits theme tokens.</li>
+            <li><strong>VIN decoding?</strong> Yes, when the data source provides it (ShowMeTheParts and ACES/PIES vendor feeds typically do; pure CSV does not).</li>
+          </ul>
+        </div>
+      </details>
+
+      <details>
+        <summary>Catalog Parts Sync <span class="meta">/features/catalog-sync/</span></summary>
+        <div class="details-body">
+          <div class="copy-preview">
+            <div class="eyebrow">Catalog sync</div>
+            <div class="headline">Your authoritative catalog, faithfully reproduced in Shopify.</div>
+            <p class="subhead">Push parts, variants, attributes, and fitment from the system of record into Shopify products and metafields — on a schedule, on demand, or driven by changes in the source.</p>
+          </div>
+          <h4>How it works</h4>
+          <ol class="steps">
+            <li><strong>Point at the source</strong> — ACES/PIES file, ShowMeTheParts, or CSV.</li>
+            <li><strong>Map fields</strong> — choose how source attributes land in Shopify products, variants, metafields.</li>
+            <li><strong>Run it</strong> — full first sync, then incremental.</li>
+          </ol>
+          <h4>What you can configure</h4>
+          <ul class="clean">
+            <li>Full vs incremental sync; schedule + on-demand</li>
+            <li>Field mapping: any source attribute → any Shopify field/metafield</li>
+            <li>Conflict resolution: source-wins, Shopify-wins, per-field rules</li>
+            <li>Tagging and collection rules driven by attributes</li>
+            <li>Image handling: source URLs, hosted assets, or skip</li>
+            <li>Dry-run mode for previewing diffs</li>
+          </ul>
+          <h4>FAQ</h4>
+          <ul class="clean">
+            <li><strong>First sync duration?</strong> A [100,000-SKU] catalog without image hosting completes in [under an hour]; with image hosting, bound by Shopify's upload throughput.</li>
+            <li><strong>Will it overwrite manual edits?</strong> Only fields configured as source-wins.</li>
+            <li><strong>SKU disappears from source?</strong> Configurable: archive, draft, mark out-of-stock, or no-op.</li>
+            <li><strong>Multi-store / Shopify Plus?</strong> Yes. One source can drive multiple stores with per-store overrides.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details>
+        <summary>PDP Product Information <span class="meta">/features/pdp-enrichment/</span></summary>
+        <div class="details-body">
+          <div class="copy-preview">
+            <div class="eyebrow">Product detail pages</div>
+            <div class="headline">Every product page, fully informed. Fewer "didn't fit" returns.</div>
+            <p class="subhead">Fitment tables, item attributes, specs, notes, and Buyer's Guide content rendered on the PDP — themed to match your store and driven by the same data that powers your YMM search. Real-time product data means shoppers see the most accurate fitment info, so they buy with confidence and you process fewer returns.</p>
+          </div>
+          <h4>What you can configure</h4>
+          <ul class="clean">
+            <li>Which blocks appear, and in what order</li>
+            <li><strong>Buyer's Guide block</strong> — render the manufacturer's buying guidance directly on the PDP</li>
+            <li><strong>Product Item Attributes</strong> — structured attributes grouped per product type</li>
+            <li>Fitment table grouping (by vehicle, engine, collapsed-by-default)</li>
+            <li>Notes display: inline, footnoted, expandable</li>
+            <li>"Other vehicles this fits" cross-sell block</li>
+            <li>Show/hide based on whether shopper has selected a vehicle</li>
+          </ul>
+          <h4>The returns angle</h4>
+          <p>Most "didn't fit" returns come from incomplete product data. PDP enrichment fixes that by rendering the manufacturer's authoritative fitment, attributes, and Buyer's Guide on every product page — kept current automatically because it reads from the same feed that powers your search.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>In-Cart Fitment &amp; Fulfillment Handoff <span class="meta">/features/in-cart-fitment/ · NEW</span></summary>
+        <div class="details-body">
+          <div class="copy-preview" style="border-left-color: var(--accent);">
+            <div class="eyebrow">In-cart fitment</div>
+            <div class="headline">The shopper's vehicle follows the order all the way to the warehouse.</div>
+            <p class="subhead">The vehicle selected in YMM search travels with the shopper through the product page, the cart, and the checkout — and lands on the order so your fulfillment team sees it before they pick and pack. Ship the right part the first time.</p>
+          </div>
+          <h4>How it works</h4>
+          <ol class="steps">
+            <li><strong>Capture at search.</strong> Vehicle picked in YMM search binds to the session.</li>
+            <li><strong>Persist through checkout.</strong> Stored as Shopify line-item properties + order metafields — visible in cart, on the order summary, and in the Shopify admin.</li>
+            <li><strong>Hand off to fulfillment.</strong> Team sees the vehicle on the order; optionally renders on the printed packing slip via a theme app extension.</li>
+          </ol>
+          <h4>What you can configure</h4>
+          <ul class="clean">
+            <li>Which fitment qualifiers travel with the order (vehicle only, or vehicle + engine + submodel + notes)</li>
+            <li>Whether the fitment record renders on the customer-facing order confirmation</li>
+            <li>Whether the fitment record renders on the printed packing slip</li>
+            <li>Whether shoppers can edit the captured vehicle from the cart</li>
+            <li>Whether the captured vehicle blocks checkout if the cart contains non-fitting items (or just warns)</li>
+          </ul>
+          <h4>FAQ</h4>
+          <ul class="clean">
+            <li><strong>Works with standard Shopify checkout?</strong> Yes — uses line-item properties + order metafields. No checkout customization required.</li>
+            <li><strong>Visible to my 3PL?</strong> Yes — Order Export carries the fitment record to any destination.</li>
+            <li><strong>Can shoppers change their mind in cart?</strong> Configurable — edit in place, or require clearing the cart and re-searching.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details>
+        <summary>Price &amp; Inventory Sync <span class="meta">/features/price-inventory-sync/</span></summary>
+        <div class="details-body">
+          <div class="copy-preview">
+            <div class="eyebrow">Price &amp; inventory</div>
+            <div class="headline">Price and inventory updates from the channels your suppliers already use.</div>
+            <p class="subhead">Drop a file on FTP. Send an email with an attachment. SPT picks it up, validates it, and updates Shopify on the cadence you choose.</p>
+          </div>
+          <h4>What you can configure</h4>
+          <ul class="clean">
+            <li>Source: SFTP, FTP, or email attachment</li>
+            <li>Pickup schedule, or trigger-on-arrival for email</li>
+            <li>File format mapping (CSV, fixed-width, tab-delimited)</li>
+            <li>Multi-location inventory destination</li>
+            <li>Cost vs price vs compare-at price fields</li>
+            <li>Error reporting: email digest, webhook, or both</li>
+            <li>Thresholds for "too big a change" to apply automatically</li>
+          </ul>
+        </div>
+      </details>
+
+      <details>
+        <summary>Order Export <span class="meta">/features/order-export/</span></summary>
+        <div class="details-body">
+          <div class="copy-preview">
+            <div class="eyebrow">Order export</div>
+            <div class="headline">Send orders to the warehouse, ERP, or 3PL the way they already expect them.</div>
+            <p class="subhead">Push every paid order to Email, FTP/SFTP, or an HTTP API endpoint, formatted to match the system on the other side. Retries, deduplication, and audit trail included.</p>
+          </div>
+          <h4>What you can configure</h4>
+          <ul class="clean">
+            <li>Destination: Email, FTP/SFTP, HTTP API</li>
+            <li>Format: CSV, XML, JSON, fixed-width</li>
+            <li>Trigger: order paid, fulfilled, tagged, channel-specific</li>
+            <li>Per-line-item routing across multiple destinations</li>
+            <li>Retry policy and backoff</li>
+            <li>Manual replay from run log</li>
+          </ul>
+        </div>
+      </details>
+    </section>
+
+    <!-- INTEGRATIONS -->
+    <section id="content-integrations">
+      <h2><span class="num">C4</span> Integrations</h2>
+
+      <h3>Integrations index <code>/integrations/</code></h3>
+      <div class="copy-preview">
+        <div class="eyebrow">Data sources &amp; channels</div>
+        <div class="headline">Bring the data you have. Plug into the channels you already run.</div>
+        <p class="subhead">SPT is data-source agnostic. Pick the catalog source that matches how you operate today, and connect to the ingestion and export channels your supply chain already speaks.</p>
+      </div>
+
+      <h3>Primary data sources</h3>
+      <div class="grid cols-3">
+        <div class="card"><h4>ACES / PIES</h4><p>Industry-standard XML for fitment and product info. The manufacturer path.</p></div>
+        <div class="card"><h4>ShowMeTheParts</h4><p>API-based fitment for retailers without their own ACES/PIES feed.</p></div>
+        <div class="card"><h4>CSV</h4><p>Bring your own spreadsheet or export. Fastest path for small/custom catalogs.</p></div>
+      </div>
+
+      <h3>Ingestion &amp; export channels</h3>
+      <div class="grid cols-3">
+        <div class="card"><h4>SFTP / FTP</h4><p>Drops for catalog, P&amp;I, and orders.</p></div>
+        <div class="card"><h4>Inbound email</h4><p>Attachment pickup for P&amp;I.</p></div>
+        <div class="card"><h4>HTTP API</h4><p>Outbound order delivery to ERPs, 3PLs, and homegrown systems.</p></div>
+      </div>
+
+      <details>
+        <summary>ACES / PIES detail page</summary>
+        <div class="details-body">
+          <div class="copy-preview">
+            <div class="headline">ACES and PIES, on Shopify, without a custom build.</div>
+            <p class="subhead">Drop your ACES (fitment) and PIES (product information) files onto FTP, and SPT handles parsing, validation, and sync to Shopify products, variants, and metafields.</p>
+          </div>
+          <h4>What's supported</h4>
+          <ul class="clean">
+            <li>ACES 3.x and 4.x fitment</li>
+            <li>PIES 6.x and 7.x product info: descriptions, attributes, packaging, digital assets</li>
+            <li>Full and incremental updates</li>
+            <li>File-level and record-level error reporting</li>
+            <li>Mapping overrides for non-standard PCdb / PAdb usage</li>
+          </ul>
+        </div>
+      </details>
+
+      <details>
+        <summary>ShowMeTheParts detail page</summary>
+        <div class="details-body">
+          <div class="copy-preview">
+            <div class="headline">ShowMeTheParts data, live on your Shopify storefront.</div>
+            <p class="subhead">Connect your ShowMeTheParts account and SPT will sync the parts, vehicles, and fitment your store needs — without an ACES/PIES file of your own.</p>
+          </div>
+          <h4>What's supported</h4>
+          <ul class="clean">
+            <li>Parts and fitment sync via API</li>
+            <li>VIN and license-plate lookup, where available</li>
+            <li>Daily incremental updates; on-demand sync available</li>
+          </ul>
+        </div>
+      </details>
+
+      <details>
+        <summary>CSV detail page</summary>
+        <div class="details-body">
+          <div class="copy-preview">
+            <div class="headline">A spreadsheet is enough to get started.</div>
+            <p class="subhead">If you have a CSV of parts, vehicles, and fitment, you have everything SPT needs to power YMM search, catalog sync, and PDP enrichment.</p>
+          </div>
+          <h4>What's supported</h4>
+          <ul class="clean">
+            <li>Separate or combined files for parts, vehicles, fitment</li>
+            <li>Configurable column mapping</li>
+            <li>Re-upload to update; full or partial replacement</li>
+            <li>Validation report on each upload</li>
+          </ul>
+        </div>
+      </details>
+    </section>
+
+    <!-- MERCHANT OF RECORD -->
+    <section id="content-mor">
+      <h2><span class="num">C5</span> Merchant of Record</h2>
+      <div class="callout info">
+        <div class="icon">i</div>
+        <div><p>Distinct from the Shopify-app modules — a separately offered service. Faithful port of the existing <code>/merchant-of-record</code> page, refreshed to match the new design system.</p></div>
+      </div>
+
+      <h3>Hero</h3>
+      <div class="copy-preview">
+        <div class="eyebrow">Merchant of Record</div>
+        <div class="headline">Sales tax, simplified.</div>
+        <p class="subhead">Reduce sales tax headaches so you can focus on growing your automotive parts business. SPT becomes the seller of record on your store — we collect, remit, and report sales tax across US jurisdictions; you receive consolidated monthly payouts.</p>
+        <div class="btn-row"><span class="btn primary">Book a Demo</span></div>
+      </div>
+
+      <h3>What is a Merchant of Record?</h3>
+      <p>Using a Merchant of Record service effectively outsources the transaction process. Your customer purchases from us; we pay you as the supplier, minus our fees. The entire customer experience stays branded as your company.</p>
+
+      <h4>Three-step flow</h4>
+      <ol class="steps">
+        <li><strong>Collection.</strong> We facilitate checkout, calculating and collecting the necessary sales tax.</li>
+        <li><strong>Remittance.</strong> We remit the sales tax owed through our entity. Your business stays free of sales tax reporting and payment obligations.</li>
+        <li><strong>Payment.</strong> We send you order payouts, minus payment processing and service fees.</li>
+      </ol>
+
+      <h3>Benefits</h3>
+      <div class="grid cols-3">
+        <div class="card"><h4>Tracking &amp; Reporting</h4><p>We monitor sales-tax-rule changes and keep collection up to date. Reports are generated to match state requirements.</p></div>
+        <div class="card"><h4>Simplicity</h4><p>We pay state sales taxes on behalf of our entity, ensuring timely and accurate remittance. You receive recurring payments — less fees and sales tax — with no reporting obligations, from a single customer: us.</p></div>
+        <div class="card"><h4>Reduced Liability</h4><p>Your existing businesses and services remain isolated from additional tax obligations you'd incur by selling online directly. Internal processes and accounts stay the same.</p></div>
+      </div>
+
+      <h3>Powered by</h3>
+      <div class="grid cols-3">
+        <div class="card" style="text-align: center;"><strong>Shopify</strong></div>
+        <div class="card" style="text-align: center;"><strong>BigCommerce</strong></div>
+        <div class="card" style="text-align: center;"><strong>Stripe</strong></div>
+      </div>
+      <p style="color: var(--text-muted); font-size: 0.85rem;">Note: BigCommerce mention on the current site suggests the MoR service supports BigCommerce stores even though the app is Shopify-focused. <strong>Confirm with owner.</strong></p>
+
+      <h3>FAQ</h3>
+      <ul class="clean">
+        <li><strong>Who provides the merchant services?</strong> We use Shopify (via Shop Pay). Any third parties involved would be confirmed.</li>
+        <li><strong>Payment methods?</strong> Credit cards enabled by default; other Shopify-supported methods can be added.</li>
+        <li><strong>Payment reports?</strong> Monthly reconciliation report with sales, sales tax, and fees.</li>
+        <li><strong>Who do customers pay?</strong> Customers pay us directly. We remit one consolidated payment to you with the reconciliation report. Similar to selling through eBay.</li>
+        <li><strong>Who collects + remits?</strong> We do — collection, processing fees, and sales tax. Single monthly payment to you with the report.</li>
+        <li><strong>Will customers receive an invoice?</strong> Customers receive an order receipt by email from Shopify.</li>
+      </ul>
+
+      <h3>Final CTA</h3>
+      <div class="copy-preview">
+        <div class="headline">Talk to us about taking sales tax off your plate.</div>
+        <div class="btn-row"><span class="btn primary">Book a Demo</span></div>
+      </div>
+    </section>
+
+    <!-- PRICING -->
+    <section id="content-pricing">
+      <h2><span class="num">C6</span> Pricing</h2>
+      <div class="copy-preview">
+        <div class="headline">Pricing that scales with your catalog, not with your sales.</div>
+        <p class="subhead">Pick the plan that matches your data source and catalog size. Switch any time. All plans include the full toolkit — modules aren't sold separately.</p>
+      </div>
+
+      <div class="grid cols-3" style="margin-top: 1.5rem;">
+        <div class="card">
+          <span class="tag">Starter</span>
+          <h4 style="margin-top: 0.5rem;">$[X] / month</h4>
+          <p>For single-store retailers piloting YMM search.</p>
+          <ul class="clean" style="margin-top: 0.75rem;">
+            <li>CSV data source</li>
+            <li>YMM Fitment Search</li>
+            <li>Catalog sync (manual + scheduled)</li>
+            <li>PDP enrichment</li>
+            <li>Up to [N] SKUs</li>
+            <li>Email support</li>
+          </ul>
+        </div>
+        <div class="card" style="border: 2px solid var(--primary);">
+          <span class="tag primary">Growth · Most popular</span>
+          <h4 style="margin-top: 0.5rem;">$[X] / month</h4>
+          <p>For multi-channel retailers and small manufacturers.</p>
+          <ul class="clean" style="margin-top: 0.75rem;">
+            <li>ShowMeTheParts or CSV</li>
+            <li>Everything in Starter</li>
+            <li>Price &amp; inventory sync</li>
+            <li>Order export (1 destination)</li>
+            <li>Up to [N] SKUs</li>
+            <li>Priority email support</li>
+          </ul>
+        </div>
+        <div class="card">
+          <span class="tag accent">Manufacturer</span>
+          <h4 style="margin-top: 0.5rem;">Contact us</h4>
+          <p>For parts manufacturers and large multi-store operations.</p>
+          <ul class="clean" style="margin-top: 0.75rem;">
+            <li>ACES/PIES data source</li>
+            <li>Everything in Growth</li>
+            <li>Multi-store / multi-destination order export</li>
+            <li>Unlimited SKUs</li>
+            <li>Dedicated onboarding</li>
+            <li>SLA, named contact, security review</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3>Pricing FAQ</h3>
+      <ul class="clean">
+        <li><strong>Do you charge per SKU?</strong> No. SKU counts gate tiers but no per-SKU usage fee.</li>
+        <li><strong>What's included in onboarding?</strong> Data source config, dry-run catalog sync, working YMM search on a staging store before go-live.</li>
+        <li><strong>Can I switch tiers?</strong> Yes, any time, prorated.</li>
+        <li><strong>Free trial?</strong> Yes on Starter and Growth. Manufacturer tier sold with an onboarding engagement.</li>
+      </ul>
+    </section>
+
+    <!-- CUSTOMERS -->
+    <section id="content-customers">
+      <h2><span class="num">C7</span> Customers</h2>
+      <div class="copy-preview">
+        <div class="headline">Manufacturers and retailers running on SPT.</div>
+        <p class="subhead">From catalog-of-record sync to single-store fitment search, here's how teams are using the toolkit.</p>
+      </div>
+
+      <h3>Real testimonial (pulled from current site)</h3>
+      <blockquote>
+        <p>"Vertical Development has been ingesting and publishing my content for years. Plugging their ShowMeTheParts API service directly into Shopify via Standard Parts Toolkit is a brilliant way to leverage the strengths of both worlds — like chocolate and peanut butter."</p>
+        <cite>— Luke Smith, CEO, Momentum USA, Inc.</cite>
+      </blockquote>
+      <p style="color: var(--text-muted); font-size: 0.85rem;">Confirm usage rights before publish (likely already cleared since it's live on the current site).</p>
+
+      <h3>Placeholder case study cards (additional)</h3>
+      <div class="grid cols-2">
+        <div class="card">
+          <span class="tag primary">Manufacturer</span>
+          <h4 style="margin-top:0.5rem">[Acme Performance Parts] cuts time-to-storefront from [quarters to weeks]</h4>
+          <p>[Acme Performance Parts] used SPT to push their ACES/PIES catalog to a Shopify Plus storefront without rebuilding their data infrastructure.</p>
+        </div>
+        <div class="card">
+          <span class="tag">Retailer</span>
+          <h4 style="margin-top:0.5rem">[Northbound Truck &amp; Off-Road] launches YMM search across [50,000 SKUs] in [under two weeks]</h4>
+          <p>A specialty truck and off-road retailer used the CSV connector and YMM search to give shoppers vehicle-specific results without engineering work.</p>
+        </div>
+      </div>
+
+      <h3>Case study template</h3>
+      <p>Each case study includes: <strong>Eyebrow + headline + one-line summary</strong>, <strong>At a glance</strong> stat strip (Industry / Catalog size / Data source / Modules / Outcome), <strong>The challenge / The solution / The result</strong> (2–3 paragraphs each), <strong>In their words</strong> pull quote, <strong>Final CTA</strong>.</p>
+    </section>
+
+    <!-- BLOG -->
+    <section id="content-blog">
+      <h2><span class="num">C8</span> Blog</h2>
+
+      <h3>Blog index <code>/blog/</code></h3>
+      <div class="copy-preview">
+        <div class="headline">Notes from the parts-on-Shopify trenches.</div>
+        <p class="subhead">Practical writing for parts manufacturers and automotive retailers selling on Shopify. Fitment, data, operations, and the occasional opinion.</p>
+      </div>
+
+      <details>
+        <summary>Post 1 · Understanding ACES and PIES for Shopify merchants <span class="meta">draft</span></summary>
+        <div class="details-body">
+<pre><code>---
+title: "Understanding ACES and PIES for Shopify merchants"
+description: "A plain-English guide to the two data standards behind automotive parts ecommerce — and what they mean if you sell on Shopify."
+publishDate: 2026-05-15
+author: "SPT"
+tags: ["data", "aces-pies", "fundamentals"]
+draft: false
+---</code></pre>
+          <p>If you sell automotive parts on Shopify, sooner or later you'll bump into two acronyms: ACES and PIES. They're the two data standards that quietly run the aftermarket parts industry. This post explains what each one is, why it exists, and what it means if your storefront lives on Shopify.</p>
+          <p><strong>What is ACES?</strong> ACES — the Aftermarket Catalog Exchange Standard — is the answer to the question, "Which vehicles does this part fit?" Maintained by the AutoCare Association, ACES is an XML format that ties part numbers to vehicle applications using a controlled vocabulary (VCdb, PCdb). When a manufacturer publishes ACES, every line says, in plain English, "this part fits this engine in this submodel of this model in this year."</p>
+          <p><strong>What is PIES?</strong> PIES — the Product Information Exchange Standard — answers "what is this part?" Where ACES describes fitment, PIES describes the part: descriptions, attributes, packaging, hazmat flags, digital assets, marketing copy. Designed to be used together.</p>
+          <p><strong>Why it matters on Shopify.</strong> Shopify wasn't built for the aftermarket. It has products, variants, metafields. It does not natively understand "this brake pad fits the 2018–2022 F-150 with the 6.2L engine." Bridging that gap is exactly the gap SPT closes.</p>
+          <p><strong>If you don't have ACES/PIES.</strong> Most retailers don't. ShowMeTheParts gives you API-driven fitment without maintaining files, and a clean CSV will get you a working fitment search faster than most teams expect.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>Post 2 · Why YMM search is the difference between a parts store and a Shopify store <span class="meta">draft</span></summary>
+        <div class="details-body">
+<pre><code>---
+title: "Why YMM search is the difference between a parts store and a Shopify store"
+description: "Year-Make-Model search isn't a nice-to-have for automotive parts — it's the only way most shoppers know how to find the right product."
+publishDate: 2026-05-01
+author: "SPT"
+tags: ["ymm", "ux", "fundamentals"]
+draft: false
+---</code></pre>
+          <p>A shopper walks into your Shopify store looking for a serpentine belt. They don't know the part number. They don't know the OEM cross-reference. They know it's for a 2014 Silverado 1500 with the 5.3L V8. If your store can't take that input and return only the parts that fit, you've already lost them.</p>
+          <p><strong>The "fits what" problem.</strong> General-purpose ecommerce search is built around words: titles, descriptions, tags. Parts ecommerce is built around relationships. No keyword search will reliably narrow "brake pads" to "brake pads for the front of a 2014 Silverado 1500 6-lug." You need a structured filter driven by real fitment data.</p>
+          <p><strong>What good YMM looks like:</strong> predictable order, persistent garage, honest "no fit" handling, sub-quarter-second dropdown populating.</p>
+          <p><strong>What gets it wrong:</strong> forcing vehicle selection before browsing, showing non-fitting products after a vehicle is selected, resetting the garage on navigation.</p>
+          <p>YMM search isn't a feature on a parts store; it's the floor. Get it right and the rest of the catalog experience gets easier.</p>
+        </div>
+      </details>
+    </section>
+
+    <!-- CHANGELOG -->
+    <section id="content-changelog">
+      <h2><span class="num">C9</span> Changelog</h2>
+      <div class="copy-preview">
+        <div class="headline">What's new in SPT.</div>
+        <p class="subhead">Release notes, in plain language. Subscribe via RSS or check back any time.</p>
+      </div>
+
+      <details>
+        <summary>v1.2.0 · ShowMeTheParts connector + multi-destination order export <span class="meta">2026-05-10</span></summary>
+        <div class="details-body">
+          <h4>New</h4>
+          <ul class="clean">
+            <li><strong>ShowMeTheParts as a primary data source.</strong> Catalog sync, YMM search, and PDP enrichment all read from your account.</li>
+            <li><strong>Multi-destination order export.</strong> Send a single order to multiple destinations (Email + FTP + API), with per-line-item routing.</li>
+          </ul>
+          <h4>Improved</h4>
+          <ul class="clean">
+            <li>Sync run logs show per-field diffs on updated SKUs.</li>
+            <li>YMM widget first paint ~30% faster via deferred dropdown hydration.</li>
+          </ul>
+          <h4>Fixed</h4>
+          <ul class="clean">
+            <li>ACES <code>BaseVehicle</code> records without engine qualifiers no longer skipped during incremental sync.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details>
+        <summary>v1.1.0 · Inbound email for P&amp;I + multi-vehicle garage <span class="meta">2026-04-05</span></summary>
+        <div class="details-body">
+          <h4>New</h4>
+          <ul class="clean">
+            <li><strong>Inbound email channel for P&amp;I sync.</strong> Dedicated per-store address; attachments processed automatically.</li>
+            <li><strong>Multi-vehicle garage.</strong> Shoppers save and switch between multiple vehicles from the header.</li>
+          </ul>
+          <h4>Improved</h4>
+          <ul class="clean">
+            <li>CSV upload validator flags duplicate fitment rows before sync.</li>
+            <li>Admin sync log adds "replay" action on failed runs.</li>
+          </ul>
+          <h4>Fixed</h4>
+          <ul class="clean">
+            <li>Off-by-one in year-range expansion when ACES <code>MinYear == MaxYear</code>.</li>
+          </ul>
+        </div>
+      </details>
+    </section>
+
+    <!-- ABOUT / CONTACT / DEMO -->
+    <section id="content-about">
+      <h2><span class="num">C10</span> About · Contact · Demo</h2>
+
+      <h3>About <code>/about/</code></h3>
+      <div class="copy-preview">
+        <div class="headline">We build the plumbing automotive parts ecommerce has been missing.</div>
+        <p class="subhead">SPT is a focused team on one thing: making the boring, hard, structural parts of selling automotive parts on Shopify actually work.</p>
+      </div>
+      <h4>Who we are</h4>
+      <p><strong>SPT</strong> (short for <em>Standard Parts Toolkit</em>) is a product of <strong><a href="https://nofixedplans.xyz/" target="_blank" rel="noopener">No Fixed Plans</a></strong>.</p>
+      <p>We support several parts-data sources out of the box — including <strong><a href="https://info.showmetheparts.com/" target="_blank" rel="noopener">ShowMeTheParts</a></strong> (operated by Vertical Development), ACES/PIES files you provide, and CSV uploads — so merchants can use whichever feed matches how they already operate. <em>Confirm exact wording with owner before publish.</em></p>
+      <h4>Values</h4>
+      <ul class="clean">
+        <li><strong>Specifics over slogans.</strong> We write copy, build features, and answer support tickets with the actual details.</li>
+        <li><strong>Configurable, not opinionated.</strong> Your store, your catalog, your workflow.</li>
+        <li><strong>Boring is beautiful.</strong> Sync runs that just work. Forms that submit cleanly. Audit trails that say what happened.</li>
+      </ul>
+      <h4>Where to find us</h4>
+      <p><strong>1449 S Michigan Ave STE 13288, Chicago, IL 60605</strong></p>
+
+      <h3>Contact <code>/contact/</code></h3>
+      <div class="copy-preview">
+        <div class="headline">Get in touch.</div>
+        <p class="subhead">Questions about the toolkit, your data, or whether we're a fit? Send a message and we'll respond within one business day.</p>
+      </div>
+      <p><strong>Fields:</strong> Name · Company · Email · Message<br/><strong>Submit:</strong> Send message<br/><strong>Success:</strong> Thanks — we'll be in touch within one business day.</p>
+      <p><strong>Other ways to reach us:</strong> <code>[hello@standardpartstoolkit.com]</code> · Mailing: 1449 S Michigan Ave STE 13288, Chicago, IL 60605 · <a href="https://kb.standardpartstoolkit.com" target="_blank" rel="noopener">Knowledge Base ↗</a> · Shopify App Store</p>
+
+      <h3>Demo <code>/demo/</code></h3>
+      <div class="copy-preview">
+        <div class="headline">See it on your data.</div>
+        <p class="subhead">A demo isn't a sales call with slides. We run a sample of your ACES/PIES file, ShowMeTheParts feed, or CSV through the toolkit, then walk you through the resulting YMM search and product pages — typically in 30 minutes.</p>
+      </div>
+      <p><strong>Fields:</strong> Name · Company · Role · Work email · Shopify store URL · Primary data source · Approximate catalog size · Primary goal · Anything else?<br/><strong>Submit:</strong> Request a demo<br/><strong>Reassurance:</strong> We won't add you to a marketing drip. We won't share your data with anyone. If we're not a fit, we'll tell you.</p>
+    </section>
+
+    <!-- LEGAL -->
+    <section id="content-legal">
+      <h2><span class="num">C11</span> Legal pages</h2>
+      <div class="callout danger">
+        <div class="icon">!</div>
+        <div><p><strong>All three legal pages must be reviewed by qualified counsel before launch.</strong> Drafts use template language with bracketed placeholders that need to be filled with real company details.</p></div>
+      </div>
+
+      <details>
+        <summary>Privacy Policy <span class="meta">/legal/privacy/</span></summary>
+        <div class="details-body">
+          <p>Covers: identity of operator, scope (marketing site only — in-app handled separately), form data, GA4 cookies, sub-processors (Formspree + GA4), user rights (access/correct/delete), data retention (form data + GA4 14 months default), policy update notification. Effective date required at top.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>Terms of Service <span class="meta">/legal/terms/</span></summary>
+        <div class="details-body">
+          <p>Covers: acceptance, service description, account responsibilities, acceptable use, customer data ownership, fees (linked to /pricing), service availability, termination, disclaimers + limitation of liability (counsel to draft), governing law, contact.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>Security &amp; Data Handling <span class="meta">/legal/security/</span></summary>
+        <div class="details-body">
+          <p>Enterprise-friendly: hosting + data residency, encryption (TLS 1.2+ in transit, AES-256 at rest), authentication (Shopify OAuth, SSO+MFA for internal), customer data handling (no sale, no ML training), sub-processor list, backups + DR, vulnerability management, incident response, coordinated disclosure contact.</p>
+        </div>
+      </details>
+    </section>
+
+    <!-- EXTRAS -->
+    <section id="content-extras">
+      <h2><span class="num">C12</span> 404 page &amp; footer</h2>
+
+      <h3>404 page</h3>
+      <div class="copy-preview">
+        <div class="headline">That page doesn't fit.</div>
+        <p class="subhead">We couldn't find what you were looking for. Try the homepage, features, integrations, blog, or contact us.</p>
+      </div>
+      <p style="color: var(--text-muted); font-size: 0.9rem;"><em>Optional self-aware line:</em> "We promise our fitment search is more reliable than our URL routing."</p>
+
+      <h3>Footer newsletter prompt</h3>
+      <div class="copy-preview">
+        <div class="headline" style="font-size: 1.05rem;">The toolkit changelog, monthly.</div>
+        <p class="subhead">Release notes, the occasional deep-dive post, no marketing fluff.</p>
+      </div>
+
+      <h3>Footer attribution &amp; address</h3>
+      <p><strong>Attribution line (above copyright):</strong> SPT is a product of <a href="https://nofixedplans.xyz/" target="_blank" rel="noopener">No Fixed Plans</a>.</p>
+      <p><strong>Address line:</strong> 1449 S Michigan Ave STE 13288, Chicago, IL 60605</p>
+      <p><strong>Knowledge Base link (in Company column):</strong> <a href="https://kb.standardpartstoolkit.com" target="_blank" rel="noopener">Knowledge Base ↗</a></p>
+
+      <h3>Footer copyright</h3>
+      <p>© [YEAR] No Fixed Plans. SPT and Standard Parts Toolkit are trademarks of No Fixed Plans. Not affiliated with Shopify. ACES and PIES are trademarks of the AutoCare Association.</p>
+    </section>
+
+    <!-- OWNER DECISIONS -->
+    <section id="content-decisions">
+      <h2><span class="num">C13</span> Open copy decisions</h2>
+      <p class="lede">Resolve before this content goes live.</p>
+      <ul class="checklist">
+        <li>Legal entity name (current footer uses "No Fixed Plans"; confirm registered entity that owns IP and signs contracts)</li>
+        <li>Confirm "a product of No Fixed Plans" as the canonical About + footer phrase (ShowMeTheParts is a data source, not a partner)</li>
+        <li>Real domain (assumes new site replaces current site at the same domain; migration plan needed)</li>
+        <li>Email addresses (<code>hello@</code>, <code>support@</code>, <code>privacy@</code>, <code>legal@</code>, <code>security@</code>)</li>
+        <li>Pricing model and dollar figures — or switch to "Contact for pricing." Also: MoR pricing</li>
+        <li><strong>Capability alignment</strong> — every module beyond the current site must ship at launch or be framed "coming soon"</li>
+        <li>BigCommerce mention on the MoR page — confirm MoR supports BigCommerce while the app is Shopify-only</li>
+        <li>Real testimonial usage rights — Luke Smith / Momentum USA quote</li>
+        <li>Live demo store — confirm <code>https://carmenspartdepot.com</code> stays accessible and OK to link</li>
+        <li>Knowledge Base — confirm <code>https://kb.standardpartstoolkit.com</code> stays live and is the canonical help destination</li>
+        <li>Real customer names and case study facts</li>
+        <li>Real version numbers and release dates (changelog uses illustrative 1.2.0 / 1.1.0)</li>
+        <li>Any stat written as <code>[N]</code> or <code>[X]</code> confirmed or removed (1,000+ brands &amp; 24/7 stats are safe — from current site)</li>
+        <li>Trademark line in footer (confirm attribution with counsel)</li>
+        <li>Demo promise — confirm operational readiness to "run a sample of your data" in every demo before launching that wording</li>
+        <li>Existing <code>/blog</code> posts — port to new MDX-based blog, or launch with placeholders only?</li>
+        <li>Preserve existing <code>/privacy-policy</code> content as starting point for the new policy</li>
+      </ul>
+    </section>
+
+    <hr/>
+
+    <section style="text-align: center; background: var(--surface-2); border: 1px dashed var(--border-strong);">
+      <p style="margin: 0; color: var(--text-muted); font-size: 0.9rem;">End of project overview · v2 with gap audit against the live site at <code>standardpartstoolkit.com</code> applied · Hand this file plus <code>PROJECT_PROPOSAL.md</code> and <code>CONTENT.md</code> to the implementing developer or LLM agent.</p>
+    </section>
+
+  </main>
+</div>
+
+</body>
+</html>
