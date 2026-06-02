@@ -9,7 +9,7 @@ Live at <https://www.standardpartstoolkit.com> (once deployed).
 ## Quick start
 
 ```bash
-nvm use 22         # requires Node 22+
+nvm use 24         # requires Node 24+
 npm ci
 npm run dev        # http://localhost:4321
 ```

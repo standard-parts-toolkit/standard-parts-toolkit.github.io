@@ -16,7 +16,7 @@
    ┌──────────────────────────────────────────────────────────────┐
    │ GitHub Actions: .github/workflows/deploy.yml                 │
    │   1. checkout                                                │
-   │   2. setup Node 22  + npm ci                                 │
+   │   2. setup Node 24  + npm ci                                 │
    │   3. npm run build       (Astro → dist/)                     │
    │   4. pagefind --site dist (search index → dist/pagefind/)    │
    │   5. actions/upload-pages-artifact                           │
@@ -51,7 +51,7 @@ Before kicking off:
 | GitHub org or user account | github.com | Owns the repo |
 | Public repo *OR* Pro/Team/Enterprise account | n/a | GitHub Pages from private repos requires a paid plan |
 | Admin access to the DNS registrar for `standardpartstoolkit.com` | wherever it's registered | Apex A + www CNAME records |
-| Node 22+ locally | nvm / homebrew | Run `npm run build` to verify locally before pushing |
+| Node 24+ locally | nvm / homebrew | Run `npm run build` to verify locally before pushing |
 | Formspree account (3 forms) | formspree.io | Contact, Demo, Newsletter form endpoints |
 | GA4 property | analytics.google.com | Measurement ID `G-XXXXXXXXXX` |
 | Shopify App Store listing | partners.shopify.com | URL for the "Install on Shopify" CTA |
