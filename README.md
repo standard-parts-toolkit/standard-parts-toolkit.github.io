@@ -1,5 +1,4 @@
 # SPT Homepage
-
 The marketing site for **SPT** (Standard Parts Toolkit) — a Shopify app for selling automotive parts.
 
 Live at <https://www.standardpartstoolkit.com> (once deployed).
