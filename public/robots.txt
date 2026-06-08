@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /customers/acme-performance-parts/
+Disallow: /customers/northbound-truck-offroad/
 
 Sitemap: https://www.standardpartstoolkit.com/sitemap-index.xml
