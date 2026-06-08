@@ -1,0 +1,148 @@
+---
+// Customer / brand logo wall — a full-width revolving carousel.
+// Shows 6 logos at a time on desktop (3 on tablet, 2 on mobile) and rotates
+// through them with the ‹ / › buttons. Logos are normalized to a 96×32 box
+// (PNG @3× = 288×96, transparent), rendered monochrome (grayscale, inverted in
+// dark mode) and brighten to full brand color on hover/focus.
+const logos = [
+  { name: 'Schultz Mfg',          file: 'schultz-mfg',          href: 'https://schultzmfgco.com/' },
+  { name: 'All World Auto',       file: 'all-world-auto',       href: 'https://allworldauto.com/' },
+  { name: 'BSD Automotive',       file: 'bsd-automotive',       href: 'https://bsdsale.com/' },
+  { name: 'Filterheads',          file: 'filterheads',          href: 'https://filterheads.com/' },
+  { name: 'FCW Auto Parts',       file: 'fcw-auto-parts',       href: 'https://fcwautoparts.com/' },
+  { name: 'Metrix Premium Parts', file: 'metrix-premium',       href: 'https://metrixpremiumparts.com/' },
+  { name: 'MOCA Auto Parts',      file: 'moca-auto-parts',      href: 'https://shop.mocaautoparts.com/' },
+  { name: 'NRS Brakes',           file: 'nrs-brakes',           href: 'https://nrsbrakes.com/' },
+  { name: 'InMotion Parts',       file: 'inmotion-parts',       href: 'https://www.inmotionparts.com/' },
+  { name: 'Aires para Autos',     file: 'aires-para-autos',     href: 'https://airesparaautos.com/' },
+  { name: 'CatalyticConverter.net', file: 'catalytic-converter', href: 'https://catalyticconverter.net/' },
+];
+---
+
+<div class="logo-carousel mt-6 flex items-center gap-2 sm:gap-3" data-logo-carousel>
+  <button
+    type="button"
+    class="logo-wall__nav focus-ring"
+    data-logo-prev
+    aria-label="Previous logos"
+  >
+    <span aria-hidden="true">&lsaquo;</span>
+  </button>
+
+  <div class="logo-wall flex-1 overflow-hidden">
+    <ul class="logo-wall__track flex list-none p-0 will-change-transform">
+      {logos.map((logo) => (
+        <li class="logo-wall__item flex shrink-0 items-center justify-center">
+          <a
+            href={logo.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="logo-wall__link focus-ring block rounded"
+            aria-label={`${logo.name} (opens in a new tab)`}
+            title={logo.name}
+          >
+            <img
+              src={`/logos/${logo.file}.png`}
+              alt={`${logo.name} logo`}
+              width="96"
+              height="32"
+              loading="lazy"
+              decoding="async"
+              class="logo-wall__img h-8 w-24 object-contain"
+            />
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <button
+    type="button"
+    class="logo-wall__nav focus-ring"
+    data-logo-next
+    aria-label="Next logos"
+  >
+    <span aria-hidden="true">&rsaquo;</span>
+  </button>
+</div>
+
+<script>
+  function visibleCount() {
+    const w = window.innerWidth;
+    if (w < 640) return 2;
+    if (w < 1024) return 3;
+    return 6;
+  }
+
+  function initCarousel(root: HTMLElement) {
+    const viewport = root.querySelector<HTMLElement>('.logo-wall');
+    const track = root.querySelector<HTMLElement>('.logo-wall__track');
+    const prev = root.querySelector<HTMLButtonElement>('[data-logo-prev]');
+    const next = root.querySelector<HTMLButtonElement>('[data-logo-next]');
+    if (!viewport || !track || !prev || !next) return;
+
+    let animating = false;
+
+    const itemWidth = () => viewport.clientWidth / visibleCount();
+
+    function layout() {
+      const w = itemWidth();
+      Array.from(track!.children).forEach((c) => {
+        (c as HTMLElement).style.width = `${w}px`;
+      });
+      // Hide controls entirely when everything already fits.
+      const fits = track!.children.length <= visibleCount();
+      root.classList.toggle('logo-carousel--static', fits);
+    }
+
+    function goNext() {
+      if (animating) return;
+      animating = true;
+      const w = itemWidth();
+      track!.style.transition = 'transform 0.4s ease';
+      track!.style.transform = `translateX(${-w}px)`;
+      track!.addEventListener(
+        'transitionend',
+        () => {
+          track!.style.transition = 'none';
+          track!.appendChild(track!.firstElementChild!);
+          track!.style.transform = 'translateX(0)';
+          animating = false;
+        },
+        { once: true },
+      );
+    }
+
+    function goPrev() {
+      if (animating) return;
+      animating = true;
+      const w = itemWidth();
+      track!.style.transition = 'none';
+      track!.insertBefore(track!.lastElementChild!, track!.firstElementChild);
+      track!.style.transform = `translateX(${-w}px)`;
+      // Two frames so the no-transition jump paints before we animate back.
+      requestAnimationFrame(() =>
+        requestAnimationFrame(() => {
+          track!.style.transition = 'transform 0.4s ease';
+          track!.style.transform = 'translateX(0)';
+          track!.addEventListener('transitionend', () => { animating = false; }, { once: true });
+        }),
+      );
+    }
+
+    next.addEventListener('click', goNext);
+    prev.addEventListener('click', goPrev);
+
+    let resizeTimer: number | undefined;
+    window.addEventListener('resize', () => {
+      window.clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(layout, 150);
+    });
+
+    layout();
+  }
+
+  document
+    .querySelectorAll<HTMLElement>('[data-logo-carousel]')
+    .forEach(initCarousel);
+</script>

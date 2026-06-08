@@ -221,4 +221,50 @@
     @apply outline-none focus-visible:ring-2 focus-visible:ring-offset-2;
     --tw-ring-color: var(--primary);
   }
+
+  /* Customer logo wall — monochrome by default, full brand color on hover. */
+  .logo-wall__img {
+    filter: grayscale(1);
+    opacity: 0.55;
+    transition: filter 0.2s ease, opacity 0.2s ease;
+  }
+  .logo-wall__link:hover .logo-wall__img,
+  .logo-wall__link:focus-visible .logo-wall__img {
+    filter: none;
+    opacity: 1;
+  }
+  /* Dark surfaces: invert the grayscale so dark marks read as light silhouettes. */
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .logo-wall__img {
+      filter: grayscale(1) invert(1);
+      opacity: 0.7;
+    }
+  }
+  :root[data-theme="dark"] .logo-wall__img {
+    filter: grayscale(1) invert(1);
+    opacity: 0.7;
+  }
+
+  /* Carousel item — sized to 1/N of the viewport by JS; centered logo. */
+  .logo-wall__item {
+    width: 16.6667%; /* 6-up fallback before JS measures */
+    padding-inline: 0.5rem;
+  }
+
+  /* Prev / next controls. */
+  .logo-wall__nav {
+    @apply inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-lg leading-none transition-colors;
+    background: var(--surface);
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+  }
+  .logo-wall__nav:hover {
+    color: var(--text);
+    border-color: var(--border-strong);
+    background: var(--surface-2);
+  }
+  /* When all logos already fit, the carousel is just a static row. */
+  .logo-carousel--static .logo-wall__nav {
+    display: none;
+  }
 }

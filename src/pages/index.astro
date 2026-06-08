@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import DualCTA from '../components/DualCTA.astro';
 import JsonLd from '../components/JsonLd.astro';
+import LogoWall from '../components/LogoWall.astro';
 
 const softwareApp = {
   '@context': 'https://schema.org',
@@ -111,15 +112,7 @@ const features = [
       <p class="text-center text-xs font-semibold uppercase tracking-wider" style="color: var(--text-subtle)">
         Trusted by manufacturers and retailers selling automotive parts on Shopify
       </p>
-      <ul class="mt-6 grid grid-cols-2 items-center justify-items-center gap-6 opacity-50 sm:grid-cols-4 lg:grid-cols-8">
-        {Array.from({ length: 8 }).map((_, i) => (
-          <li
-            class="h-8 w-24 rounded"
-            style="background: linear-gradient(90deg, var(--ink-300, #d6d3d1), var(--ink-200, #e7e5e4))"
-            aria-label={`Customer logo placeholder ${i + 1}`}
-          ></li>
-        ))}
-      </ul>
+      <LogoWall />
     </div>
   </section>
 
@@ -309,15 +302,19 @@ const features = [
       </div>
       <div class="mt-8 grid gap-5 sm:grid-cols-3">
         {[
-          'YMM search on a category page',
-          'Fitment table on a product detail page',
-          'Order detail in Shopify admin showing the fulfillment-team fitment record',
-        ].map((label, i) => (
+          { src: '/screenshots/ymm_category_search.png', label: 'YMM search on a category page' },
+          { src: '/screenshots/buyers_guide.png',        label: 'Fitment table on a product detail page' },
+          { src: '/screenshots/cart_fitment.png',        label: 'Fitment confirmed in the cart' },
+        ].map(({ src, label }) => (
           <figure class="overflow-hidden rounded-2xl border" style="border-color: var(--border); background: var(--surface)">
-            <div
-              class="flex aspect-[4/3] items-center justify-center text-xs uppercase tracking-wider"
-              style="background: linear-gradient(135deg, var(--primary-soft), var(--surface-2)); color: var(--text-subtle)"
-            >Screenshot {i + 1}</div>
+            <img
+              src={src}
+              alt={label}
+              width="1200"
+              height="900"
+              loading="lazy"
+              class="aspect-[4/3] w-full object-cover"
+            />
             <figcaption class="px-4 py-3 text-sm" style="color: var(--text-muted)">{label}</figcaption>
           </figure>
         ))}

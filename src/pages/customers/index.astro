@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import DualCTA from '../../components/DualCTA.astro';
+import LogoWall from '../../components/LogoWall.astro';
 
 const cases = (await getCollection('caseStudies', ({ data }) => !data.draft))
   .sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
@@ -26,15 +27,7 @@ const cases = (await getCollection('caseStudies', ({ data }) => !data.draft))
     <p class="text-center text-xs font-semibold uppercase tracking-wider" style="color: var(--text-subtle)">
       Trusted by manufacturers and retailers selling automotive parts on Shopify
     </p>
-    <ul class="mt-6 grid grid-cols-2 items-center justify-items-center gap-6 opacity-50 sm:grid-cols-4 lg:grid-cols-8">
-      {Array.from({ length: 8 }).map((_, i) => (
-        <li
-          class="h-8 w-24 rounded"
-          style="background: linear-gradient(90deg, var(--border-strong), var(--border))"
-          aria-label={`Customer logo placeholder ${i + 1}`}
-        ></li>
-      ))}
-    </ul>
+    <LogoWall />
   </section>
 
   <section class="section pt-0">
