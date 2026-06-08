@@ -52,9 +52,10 @@ Before kicking off:
 | Public repo *OR* Pro/Team/Enterprise account | n/a | GitHub Pages from private repos requires a paid plan |
 | Admin access to the DNS registrar for `standardpartstoolkit.com` | wherever it's registered | Apex A + www CNAME records |
 | Node 24+ locally | nvm / homebrew | Run `npm run build` to verify locally before pushing |
-| Formspree account (3 forms) | formspree.io | Contact, Demo, Newsletter form endpoints |
+| Formspree account (2 forms) | formspree.io | Contact + Demo form endpoints |
+| EmailOctopus account | emailoctopus.com | Newsletter signup form (embedded in the footer) |
 | GA4 property | analytics.google.com | Measurement ID `G-XXXXXXXXXX` |
-| Shopify App Store listing | partners.shopify.com | URL for the "Install on Shopify" CTA |
+| Shopify App Store listing | partners.shopify.com | URL for the "Install on Shopify" CTA (defaults to the live listing in `src/consts.ts`) |
 
 ---
 
@@ -93,22 +94,21 @@ In the new repo:
 
 ### 3.3 Configure repo Variables (not Secrets)
 
-The build script reads these as `PUBLIC_*` Vite env vars. Use **repository Variables**, not Secrets — they're embedded in the public site at build time and are not sensitive.
+The build reads these as `PUBLIC_*` Vite env vars. Use **repository Variables**, not Secrets — they're embedded in the public site at build time and are not sensitive. **Every one is optional** — the Formspree form IDs, GA4 measurement ID, and Shopify App URL all ship with live defaults in `src/consts.ts`. Set a Variable only to *override* a default (e.g. point a form at a different Formspree account) or to *disable* analytics.
 
 **Settings → Secrets and variables → Actions → Variables → New repository variable**
 
-| Variable | Example | Required for |
+| Variable | Example | Effect |
 |---|---|---|
-| `PUBLIC_FORMSPREE_CONTACT_ID`    | `xqkwabcd` | `/contact` form |
-| `PUBLIC_FORMSPREE_DEMO_ID`       | `xpzbabcd` | `/demo` form |
-| `PUBLIC_FORMSPREE_NEWSLETTER_ID` | `xpzbefgh` | Footer newsletter |
-| `PUBLIC_GA4_ID`                  | `G-XXXXXXXXXX` | GA4 analytics (loads only after consent) |
-| `PUBLIC_SHOPIFY_APP_URL`         | `https://apps.shopify.com/spt` | "Install on Shopify" CTA buttons |
+| `PUBLIC_GA4_ID`                  | `G-N1T9TZ6921` | Optional — overrides the GA4 property (default lives in `src/consts.ts`). Set to an **empty** value to disable analytics + the consent banner. |
+| `PUBLIC_FORMSPREE_CONTACT_ID`    | `mrevqgnr` | Optional — overrides the `/contact` form ID. |
+| `PUBLIC_FORMSPREE_DEMO_ID`       | `mgobkegl` | Optional — overrides the `/demo` form ID. |
+| `PUBLIC_SHOPIFY_APP_URL`         | `https://apps.shopify.com/standard-parts-toolkit` | Optional — overrides the "Install on Shopify" CTA target. |
 
-Until each variable is set, the relevant feature degrades gracefully:
-- Forms show a clearly-marked "Form not configured yet" banner and don't submit.
-- GA4 / consent banner doesn't render if `PUBLIC_GA4_ID` is empty.
-- "Install on Shopify" buttons fall back to the in-page `#install-on-shopify` anchor.
+Notes:
+- The **newsletter** signup is an EmailOctopus embed in `src/components/Footer.astro` — no env var or repo Variable.
+- Out of the box (no Variables set): the Contact + Demo forms post to the live Formspree forms, the install CTAs point to the live App Store listing, and **GA4 is on** (loading only after the visitor accepts the consent banner) using the default property.
+- To turn analytics **off**, set `PUBLIC_GA4_ID` to an empty value — the consent banner and GA script then don't render at all.
 
 ### 3.4 DNS configuration
 
@@ -195,10 +195,11 @@ The existing site at `standardpartstoolkit.com` has these URLs:
 
 Don't swap DNS until *all* of these are green:
 
-- [ ] All 5 repo Variables set (Formspree × 3, GA4, Shopify App URL).
+- [ ] Services verified — all default in `src/consts.ts`, so no repo Variables are required (set one only to override a default or to disable GA4).
 - [ ] DNS propagation verified.
 - [ ] HTTPS cert issued (green padlock at `https://www.standardpartstoolkit.com`).
 - [ ] Forms submit successfully (test Contact + Demo end-to-end; check Formspree dashboard for the entry).
+- [ ] Newsletter signup works (EmailOctopus footer embed renders and a test submit lands in the EmailOctopus list).
 - [ ] GA4 fires on first session after accepting the cookie banner (verify in GA4 Realtime).
 - [ ] Lighthouse on homepage and one feature page both score ≥95.
 - [ ] Mobile spot-check at 375px width.

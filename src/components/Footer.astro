@@ -13,22 +13,15 @@ const year = new Date().getFullYear();
           The all-in-one Shopify toolkit for selling automotive parts. Fitment search, catalog sync, PDP enrichment, in-cart fitment, P&amp;I sync, and order export — driven by one data layer.
         </p>
 
-        <form class="mt-6 max-w-sm" action="#" method="post">
-          <label for="footer-email" class="text-xs font-semibold uppercase tracking-wider" style="color: var(--text-subtle)">
+        <div class="mt-6 max-w-sm">
+          <p class="text-xs font-semibold uppercase tracking-wider" style="color: var(--text-subtle)">
             The toolkit changelog, monthly
-          </label>
-          <div class="mt-2 flex gap-2">
-            <input
-              id="footer-email"
-              type="email"
-              required
-              placeholder="you@company.com"
-              class="focus-ring w-full rounded-lg border px-3 py-2 text-sm"
-              style="border-color: var(--border-strong); background: var(--bg); color: var(--text)"
-            />
-            <button type="submit" class="btn btn-primary">Subscribe</button>
+          </p>
+          {/* EmailOctopus embedded signup form (renders inline: [Email][Subscribe]) */}
+          <div class="mt-2 eo-signup">
+            <script is:inline async src="https://eomail6.com/form/5176e57a-62e1-11f1-8be6-7107a4ad6373.js" data-form="5176e57a-62e1-11f1-8be6-7107a4ad6373"></script>
           </div>
-        </form>
+        </div>
       </div>
 
       <nav aria-label="Product">

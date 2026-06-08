@@ -72,11 +72,12 @@ jobs:
         env:
           # Build-time PUBLIC_* vars inlined into the client build (forms + analytics).
           # Set these under Settings → Secrets and variables → Actions → Variables.
-          PUBLIC_FORMSPREE_CONTACT_ID:    ${{ vars.PUBLIC_FORMSPREE_CONTACT_ID }}
-          PUBLIC_FORMSPREE_DEMO_ID:       ${{ vars.PUBLIC_FORMSPREE_DEMO_ID }}
-          PUBLIC_FORMSPREE_NEWSLETTER_ID: ${{ vars.PUBLIC_FORMSPREE_NEWSLETTER_ID }}
-          PUBLIC_GA4_ID:                  ${{ vars.PUBLIC_GA4_ID }}
-          PUBLIC_SHOPIFY_APP_URL:         ${{ vars.PUBLIC_SHOPIFY_APP_URL }}
+          # Newsletter signup is an EmailOctopus embed (no var). PUBLIC_SHOPIFY_APP_URL
+          # is optional — defaults to the live App Store listing in src/consts.ts.
+          PUBLIC_FORMSPREE_CONTACT_ID: ${{ vars.PUBLIC_FORMSPREE_CONTACT_ID }}
+          PUBLIC_FORMSPREE_DEMO_ID:    ${{ vars.PUBLIC_FORMSPREE_DEMO_ID }}
+          PUBLIC_GA4_ID:               ${{ vars.PUBLIC_GA4_ID }}
+          PUBLIC_SHOPIFY_APP_URL:      ${{ vars.PUBLIC_SHOPIFY_APP_URL }}
         run: |
           ${{ steps.detect-package-manager.outputs.runner }} astro build \
             --site "${{ steps.pages.outputs.origin }}" \

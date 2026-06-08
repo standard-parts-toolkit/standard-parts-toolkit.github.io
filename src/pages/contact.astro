@@ -1,8 +1,9 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ContactForm from '../components/ContactForm.astro';
+import { FORMSPREE_CONTACT_ID } from '../consts';
 
-const formId = import.meta.env.PUBLIC_FORMSPREE_CONTACT_ID || '';
+const formId = FORMSPREE_CONTACT_ID;
 ---
 
 <BaseLayout

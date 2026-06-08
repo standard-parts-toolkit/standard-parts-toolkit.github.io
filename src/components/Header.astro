@@ -1,6 +1,7 @@
 ---
 import Logo from './Logo.astro';
 import ThemeToggle from './ThemeToggle.astro';
+import { SHOPIFY_APP_URL } from '../consts';
 
 const products = [
   {
@@ -115,7 +116,7 @@ const navLinks = [
     <div class="ml-auto flex items-center gap-2">
       <ThemeToggle />
       <a href="/demo/" class="btn btn-secondary hidden sm:inline-flex">Book a Demo</a>
-      <a href="#install-on-shopify" class="btn btn-primary">Install on Shopify</a>
+      <a href={SHOPIFY_APP_URL} target="_blank" rel="noopener" class="btn btn-primary">Install on Shopify</a>
 
       <button
         type="button"

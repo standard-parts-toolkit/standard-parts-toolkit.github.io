@@ -5,7 +5,7 @@ import LegalLayout from '../../layouts/LegalLayout.astro';
 <LegalLayout
   title="Security & Data Handling"
   description="How SPT handles merchant catalogs, customer order data, and supplier feeds — hosting, encryption, access, sub-processors, backups, and incident response."
-  effective="[DATE]"
+  effective="June 1, 2026"
 >
 
   <p>
@@ -14,14 +14,15 @@ import LegalLayout from '../../layouts/LegalLayout.astro';
 
   <h2>Hosting and data residency</h2>
   <p>
-    The SPT service runs on <strong>[PROVIDER]</strong> in <strong>[REGION(S)]</strong>. Customer data is stored in
-    <strong>[REGION]</strong> unless we've agreed otherwise in writing.
+    The SPT service runs on reputable, security-reviewed cloud infrastructure hosted in the
+    <strong>United States</strong>. Customer data is stored in the United States unless we've agreed otherwise in
+    writing.
   </p>
 
   <h2>Encryption</h2>
   <ul>
     <li><strong>In transit:</strong> All connections to the service and between the service and Shopify use TLS 1.2 or higher.</li>
-    <li><strong>At rest:</strong> Data at rest is encrypted using <strong>[AES-256 or provider-managed equivalent]</strong>.</li>
+    <li><strong>At rest:</strong> Data at rest is encrypted using strong, industry-standard encryption.</li>
   </ul>
 
   <h2>Authentication and access</h2>
@@ -41,23 +42,24 @@ import LegalLayout from '../../layouts/LegalLayout.astro';
   <h2>Third-party processors</h2>
   <p>We use the following sub-processors:</p>
   <ul>
-    <li><strong>[Hosting provider]</strong> — infrastructure</li>
-    <li><strong>[Database provider]</strong> — managed database</li>
+    <li><strong>Cloud infrastructure provider (United States)</strong> — application hosting</li>
+    <li><strong>Managed database provider (United States)</strong> — encrypted data storage</li>
+    <li><strong>Static site host / CDN</strong> — marketing site delivery</li>
     <li><strong>Google Analytics 4</strong> — website analytics (marketing site only, not the app)</li>
-    <li><strong>Formspree</strong> — marketing site form submissions</li>
-    <li><em>[Add others as applicable]</em></li>
+    <li><strong>Formspree</strong> — marketing site contact &amp; demo form submissions</li>
+    <li><strong>EmailOctopus</strong> — newsletter signups and delivery</li>
   </ul>
 
   <h2>Backups and disaster recovery</h2>
   <ul>
-    <li>Encrypted backups are taken <strong>[daily]</strong> with a <strong>[N-day]</strong> retention window.</li>
-    <li>We test restore procedures <strong>[quarterly]</strong>.</li>
+    <li>Encrypted backups are taken on a regular schedule with a defined retention window.</li>
+    <li>We test restore procedures periodically.</li>
   </ul>
 
   <h2>Vulnerability management</h2>
   <ul>
     <li>Dependencies are monitored continuously and patched on a defined cadence based on severity.</li>
-    <li>Production infrastructure is scanned <strong>[monthly]</strong>; findings are tracked to resolution.</li>
+    <li>Production infrastructure is scanned regularly; findings are tracked to resolution.</li>
   </ul>
 
   <h2>Incident response</h2>
