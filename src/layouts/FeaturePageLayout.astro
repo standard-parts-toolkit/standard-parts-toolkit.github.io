@@ -11,7 +11,11 @@ interface Props {
   subhead: string;
   /** Optional new-feature badge */
   isNew?: boolean;
-  /** Optional caption under the hero screenshot placeholder */
+  /** Optional hero screenshot. When omitted, the hero is a full-width text block. */
+  heroImage?: string;
+  /** Alt text for the hero screenshot (defaults to the caption). */
+  heroImageAlt?: string;
+  /** Optional caption under the hero screenshot */
   heroCaption?: string;
   howItWorks: Step[];
   configurable: string[];
@@ -28,6 +32,8 @@ const {
   headline,
   subhead,
   isNew = false,
+  heroImage,
+  heroImageAlt,
   heroCaption = 'Annotated product screenshot.',
   howItWorks,
   configurable,
@@ -42,8 +48,8 @@ const {
 
   <!-- HERO -->
   <section class="section pt-12 sm:pt-20">
-    <div class="grid items-center gap-10 lg:grid-cols-12">
-      <div class="lg:col-span-7">
+    <div class={heroImage ? 'grid items-center gap-10 lg:grid-cols-12' : ''}>
+      <div class={heroImage ? 'lg:col-span-7' : 'max-w-4xl'}>
         <div class="flex flex-wrap items-center gap-3">
           <p class="text-xs font-semibold uppercase tracking-[0.18em]" style="color: var(--action)">{eyebrow}</p>
           {isNew && <span class="tag tag-action">New</span>}
@@ -54,15 +60,22 @@ const {
         <p class="lede mt-5 max-w-2xl">{subhead}</p>
         <div class="mt-8"><DualCTA variant="inline" showDemoLink={false} /></div>
       </div>
-      <div class="lg:col-span-5">
-        <figure class="overflow-hidden rounded-2xl border" style="border-color: var(--border); background: var(--surface)">
-          <div
-            class="flex aspect-[5/4] items-center justify-center text-xs uppercase tracking-wider"
-            style="background: linear-gradient(135deg, var(--primary-soft), var(--surface-2)); color: var(--text-subtle)"
-          >Screenshot placeholder</div>
-          <figcaption class="px-4 py-3 text-sm" style="color: var(--text-muted)">{heroCaption}</figcaption>
-        </figure>
-      </div>
+      {heroImage && (
+        <div class="lg:col-span-5">
+          <figure class="overflow-hidden rounded-2xl border" style="border-color: var(--border); background: var(--surface)">
+            <img
+              src={heroImage}
+              alt={heroImageAlt ?? heroCaption}
+              width="1200"
+              height="960"
+              loading="eager"
+              decoding="async"
+              class="aspect-[5/4] w-full object-cover"
+            />
+            <figcaption class="px-4 py-3 text-sm" style="color: var(--text-muted)">{heroCaption}</figcaption>
+          </figure>
+        </div>
+      )}
     </div>
   </section>
 

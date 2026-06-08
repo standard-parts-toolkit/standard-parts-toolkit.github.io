@@ -48,13 +48,17 @@ as a full-width revolving carousel — 6 logos at a time (3 on tablet, 2 on mobi
 - Aspect **5:4** → source **1200 × 960 px PNG**
 - Rendered by `src/layouts/FeaturePageLayout.astro` (the `lg:col-span-5` figure)
 
-- [ ] **ymm-search** — YMM widget: empty, mid-selection, and with results
-- [ ] **catalog-sync** — Admin sync run with counts: created / updated / skipped / errored
-- [ ] **pdp-enrichment** — PDP with fitment banner, attribute table, Buyer's Guide, specs tabs
-- [ ] **in-cart-fitment** — Cart with fitment block + Shopify admin order detail (fitment highlighted)
-- [ ] **price-inventory-sync** — P&I run log: timestamps, file source, updated SKU count
-- [ ] **order-export** — Admin destinations list + a sample exported file
-- [ ] Update `FeaturePageLayout.astro` to render a real image (currently a placeholder div)
+The layout now takes an optional `heroImage` prop. With it, the hero is a two-column
+grid with the screenshot at `aspect-[5/4]`; without it, the hero is a full-width text
+block (no placeholder).
+
+- [x] **ymm-search** — reuses `public/screenshots/ymm_category_search.png`
+- [x] **pdp-enrichment** — reuses `public/screenshots/buyers_guide.png`
+- [x] **in-cart-fitment** — reuses `public/screenshots/cart_fitment.png`
+- [x] **catalog-sync** — no screenshot → full-width text hero
+- [x] **price-inventory-sync** — no screenshot → full-width text hero
+- [x] **order-export** — no screenshot → full-width text hero
+- [x] Update `FeaturePageLayout.astro` to render a real image (was a placeholder div)
 
 ## 4. Open Graph / social images  (optional)
 - Default `public/og-default.png` (1200 × 630) already exists and is used site-wide.
