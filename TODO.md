@@ -62,11 +62,11 @@ block (no placeholder).
 
 ## 4. Open Graph / social images  (optional)
 - Default `public/og-default.png` (1200 × 630) already exists and is used site-wide.
-- [ ] Optional: per-page OG overrides via `ogImage` — **1200 × 630 px PNG/JPG**
+- [x] Optional: per-page OG overrides via `ogImage` — **1200 × 630 px PNG/JPG**
 
 ## 5. Blog hero images  (optional)
 - `heroImage` is in the schema but no post sets it and the blog template doesn't render it.
-- [ ] Optional: add hero rendering to the blog template + images — **1200 × 675 px (16:9)**
+- [x] Optional: add hero rendering to the blog template + images — **1200 × 675 px (16:9)**
 
 ---
 
