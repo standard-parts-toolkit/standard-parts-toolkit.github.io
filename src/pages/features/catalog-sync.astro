@@ -6,19 +6,19 @@ import FeaturePageLayout from '../../layouts/FeaturePageLayout.astro';
   title="Catalog Parts Sync — SPT"
   description="Sync ACES/PIES, ShowMeTheParts, or CSV catalogs into Shopify products and metafields. Full or incremental, run on demand."
   eyebrow="Catalog sync"
-  headline="Your authoritative catalog, faithfully reproduced in Shopify."
-  subhead="Turn parts, variants, attributes, and fitment from your system of record into Shopify products and metafields — run on demand and kept current as your source data changes. Includes Product Description, Product Specs, Buyer's Guide, and Item Attributes."
+  headline="Your full catalog, no compromises."
+  subhead="Import data from your PIM into Shopify and keep current as your source data changes. Includes Product Description, Product Specs, Buyer's Guide, and Item Attributes."
   heroCaption="Admin sync run with counts: created, updated, skipped, errored."
   howItWorks={[
-    { step: 'Point at the source', body: 'ACES/PIES file, ShowMeTheParts account, or CSV.' },
+    { step: 'Point at the source', body: 'ACES/PIES file(s), ShowMeTheParts, or CSV.' },
     { step: 'Build the products',  body: 'Source attributes are mapped into Shopify products, variants, and metafields, with images and SEO-ready titles.' },
-    { step: 'Run it',              body: 'Full first sync, then incremental updates as your data changes.' },
+  { step: 'Import it',              body: 'Sync everything or specify specific SKUs, then update as your data changes.' },
   ]}
   configurable={[
-    'Full first sync, then incremental updates',
+    'Specify what SKUs you want to stock',
     'Source attributes mapped into Shopify products, variants, and metafields',
     'SEO-optimized product titles generated from fitment data',
-    'Multi-market pricing (e.g. US, CA, AU, MX) carried onto variants',
+    'Multi-market pricing (e.g. US, CA, AU, MX)',
     'Per-locale product translation sync into Shopify for the languages you enable',
     'Tags generated from source attributes',
     'Product images brought in from source URLs',
@@ -27,11 +27,11 @@ import FeaturePageLayout from '../../layouts/FeaturePageLayout.astro';
   ]}
   dataSources="ACES/PIES XML · ShowMeTheParts API · CSV. The same connector that drives YMM Search drives catalog sync — one source of truth."
   faqs={[
-    { q: 'How long does a first sync take?', a: 'Depends on catalog size and image policy. As a rough guide, a 100,000-SKU catalog without image hosting completes in under an hour; with image hosting it is bound by Shopify\'s image upload throughput.' },
-    { q: 'Will it overwrite manual edits I make in Shopify?', a: 'SPT manages the fields it syncs — titles, descriptions, specs, fitment metafields, images, price, and inventory. Fields outside that set are left alone.' },
+    { q: 'How long does a first sync take?', a: 'Depends on catalog size and image policy. As a rough guide, a 100,000-SKU catalog without image hosting completes in 1-3 days; with image hosting it is bound by Shopify\'s image upload throughput.' },
+  { q: 'Will it overwrite manual edits I make in Shopify?', a: 'Yes: SPT manages the fields it syncs - titles, descriptions, specs, fitment metafields, images, price, and inventory. Modifications to those fields will be overwritten.' },
     { q: 'What if a SKU disappears from the source?', a: 'Products can be unpublished or archived when they leave the source or go out of stock.' },
     { q: 'Can I run sync against a development store first?', a: 'Yes — you can install on a development store and run a sync against a sample of your data before going live.' },
     { q: 'Does it support multiple languages?', a: 'Yes. When you enable target locales, localized product content is synced into Shopify per language, so your storefront can present translated titles, descriptions, and attributes.' },
-    { q: 'Does SPT work on Shopify Plus?', a: 'Yes. SPT runs on Shopify, Advanced Shopify, and Shopify Plus — one install per store. SPT is sold per merchant, per store.' },
+    { q: 'Does SPT work on Shopify Plus?', a: 'Yes. SPT runs on Shopify, Advanced Shopify, and Shopify Plus. SPT is licensed per merchant, per store.' },
   ]}
 />

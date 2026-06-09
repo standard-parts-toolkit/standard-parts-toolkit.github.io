@@ -6,8 +6,8 @@ import FeaturePageLayout from '../../layouts/FeaturePageLayout.astro';
   title="Order Export — SPT"
   description="Route Shopify orders to Email, FTP/SFTP, or API destinations by SKU pattern, in the format your warehouse, ERP, or 3PL expects."
   eyebrow="Order export"
-  headline="Send orders to the warehouse, ERP, or 3PL the way they already expect them."
-  subhead="As orders come in, SPT routes them to Email, FTP/SFTP, or an HTTP API endpoint — by SKU pattern, so different product lines can go to different suppliers — formatted to match the system on the other side. Background retries and a per-order processing log included."
+  headline="Route orders where you need: warehouse, ERP, or 3PL."
+  subhead="As orders are placed, SPT can route them via Email, FTP/SFTP, or an HTTP API endpoint, by SKU pattern or brand, so different product lines can go to different suppliers — formatted to match the system on the other side. Background retries and a per-order processing log included."
   heroCaption="Admin destinations list + a sample exported file."
   howItWorks={[
     { step: 'Define destinations', body: 'One or more Email, FTP/SFTP, or HTTP API destinations, each with its own routing rule.' },
@@ -20,7 +20,6 @@ import FeaturePageLayout from '../../layouts/FeaturePageLayout.astro';
     'Routing rules matched by SKU pattern, with a default fallback rule',
     'Per-line-item routing — split a single order across destinations by SKU',
     'CC addresses and an admin copy of each export',
-    'A testing mode that runs the rules without delivering, plus structured per-order logs',
     'Automatic retries on delivery failure via background jobs',
   ]}
   dataSources="Independent of catalog and P&I. Use any combination of modules you need."

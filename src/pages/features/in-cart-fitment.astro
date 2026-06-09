@@ -4,16 +4,16 @@ import FeaturePageLayout from '../../layouts/FeaturePageLayout.astro';
 
 <FeaturePageLayout
   title="In-Cart Fitment & Fulfillment Handoff — SPT"
-  description="The shopper's vehicle travels through cart and checkout and lands on the order for your fulfillment team. Ship the right part the first time."
+  description="Fitment data from cart to checkout to fulfillment."
   eyebrow="In-cart fitment"
-  headline="The shopper's vehicle follows the order all the way to the warehouse."
-  subhead="The vehicle a shopper selected in YMM search travels with them through the product page, the cart, and the checkout — and lands on the order so your fulfillment team can see it before they pick and pack. Ship the right part the first time."
+  headline="Fitment data from cart to checkout to fulfillment."
+  subhead="The vehicle a shopper selected in search travels with them through the product page, the cart, and the checkout landing on the order so your fulfillment team can see it before they pick and pack. Ship the right part the first time."
   isNew={true}
   heroImage="/screenshots/cart_fitment.png"
   heroImageAlt="A Shopify cart showing the shopper's selected vehicle as a fitment record."
   heroCaption="The shopper's selected vehicle carried into the cart."
   howItWorks={[
-    { step: 'Capture at search',       body: 'When a shopper picks a vehicle in YMM search, that selection is saved in their session.' },
+    { step: 'Capture at search',       body: 'When a shopper picks a vehicle for search, that selection is saved in their session.' },
     { step: 'Persist onto the order',  body: 'The vehicle is attached as a Shopify line-item property when the item is added to cart, so it shows up in the cart, on the order summary, and on the order in your Shopify admin.' },
     { step: 'Hand off to fulfillment', body: 'Your fulfillment team sees the exact vehicle on the order line item in the Shopify admin before they pick and pack.' },
   ]}
@@ -22,9 +22,10 @@ import FeaturePageLayout from '../../layouts/FeaturePageLayout.astro';
     'The label format and which add-to-cart element the fitment field attaches to',
     'On the product page, whether non-fitting items are hidden, dimmed, or labeled before they reach the cart',
   ]}
-  dataSources="The same data layer as YMM Search and Catalog Sync. Configure once."
+  dataSources="The same data layer as Search and Catalog Sync. Configure once."
   faqs={[
     { q: 'Does this work with Shopify\'s standard checkout?', a: 'Yes. The vehicle is attached as a standard Shopify line-item property — no checkout customization required.' },
+    { q: 'Will this work with my theme?', a: 'Likely yes, but every stores theme can be different, so the best way to know is a quick review by us.' },
     { q: 'Will my 3PL see it on order export?', a: 'The selected vehicle is always visible on the order in your Shopify admin. Carrying it into an exported order file isn\'t automatic — Order Export sends the fields your destination\'s format maps, so we configure that per destination when a feed needs it.' },
     { q: 'What if a shopper changes their mind in cart?', a: 'They can start a new vehicle search at any time, and the new selection is used for items added to the cart after that.' },
   ]}

@@ -4,18 +4,18 @@ import FeaturePageLayout from '../../layouts/FeaturePageLayout.astro';
 
 <FeaturePageLayout
   title="Price & Inventory Sync — SPT"
-  description="Pull price and inventory updates from supplier FTP/SFTP file drops or email, and automatically hide out-of-stock products."
+  description="Pull price and inventory updates from FTP/SFTP file drops or email, and automatically hide out-of-stock products."
   eyebrow="Price & inventory"
-  headline="Price and inventory updates from the channels your suppliers already use."
-  subhead="Your supplier drops a price and inventory file on FTP/SFTP, or sends it by email. SPT picks it up, transforms it to match your catalog, and bulk-updates Shopify prices and stock levels — then optionally hides anything that just went out of stock."
+  headline="Price and inventory updates from the channels you already use."
+  subhead="Drop a price and inventory file on FTP/SFTP, or send it by email. SPT picks it up, transforms it to match your catalog, and bulk-updates Shopify prices and stock levels — then optionally hides anything that just went out of stock."
   heroCaption="P&I run log with timestamps, file source, and updated SKU count."
   howItWorks={[
-    { step: 'Point at the source',        body: 'A supplier SFTP/FTP drop or inbound email, with files matched to the right product set by filename template.' },
+    { step: 'Point at the source',        body: 'A SFTP/FTP drop or inbound email, with files matched to the right product set by filename template.' },
     { step: 'Map the format',             body: 'A per-supplier transformer maps the file\'s columns to Shopify price and inventory fields.' },
     { step: 'Process on arrival',         body: 'Files are processed as they land, rate-limited to stay within Shopify API limits.' },
   ]}
   configurable={[
-    'Source: one or more supplier SFTP/FTP drops or inbound email, matched by filename template',
+    'Source: one or more SFTP/FTP drops or inbound email, matched by filename template',
     'Per-supplier file transformers — different column layouts, delimiters, and zipped or password-protected archives',
     'Bulk price and inventory-quantity updates via Shopify bulk operations',
     'Inventory written to your configured Shopify location',
@@ -24,7 +24,7 @@ import FeaturePageLayout from '../../layouts/FeaturePageLayout.astro';
   ]}
   dataSources="Independent of your catalog data source. P&I can come from a different supplier than your fitment data."
   faqs={[
-    { q: 'My suppliers all send different formats — is that a problem?', a: 'No. Each supplier source has its own transformer, so different column layouts, delimiters, and even zipped or password-protected files are all handled.' },
+    { q: 'My suppliers all send different formats — is that a problem?', a: 'No. Each supplier source can have its own transformer, so different column layouts, delimiters, and even zipped or password-protected files are all handled.' },
     { q: 'What about line-level errors?', a: 'Rows are processed individually — a malformed line does not block the rest of the file.' },
     { q: 'Can products hide themselves when they sell out?', a: 'Yes. When enabled, products are automatically unpublished when their available quantity drops below one and re-published when stock returns.' },
     { q: 'Which tier includes this?', a: 'Automatic Price & Inventory sync is part of the Pro tier ($300/month). The Free tier does not include automatic P&I.' },
