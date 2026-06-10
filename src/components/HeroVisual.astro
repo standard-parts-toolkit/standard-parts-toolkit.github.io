@@ -1,0 +1,581 @@
+---
+// Reusable hero graphic for the right side of a hero section.
+//
+// One branded, theme-adaptive frame (SVG dot-grid + glow backdrop + floating
+// capsule) wrapping a per-page abstract illustration selected by `variant`.
+// Every illustration shares the same visual grammar — rounded "cards", token
+// dots, fill bars, flow connectors, muted vs. accented states — and is drawn
+// entirely from CSS theme tokens, so it adapts to light/dark for free.
+//
+//   <HeroVisual variant="catalog-sync" />
+//   <HeroVisual variant="data-sources" highlight={2} />
+//   <HeroVisual><CustomCard slot…/></HeroVisual>   // override the illustration
+interface Props {
+  variant?:
+    | 'fitment'
+    | 'pdp'
+    | 'in-cart'
+    | 'catalog-sync'
+    | 'price-inventory'
+    | 'order-export'
+    | 'data-sources'
+    | 'toolkit'
+    | 'shopify'
+    | 'merchant'
+    | 'about'
+    | 'pricing';
+  /** For 'data-sources': which source (0=XML, 1=API, 2=CSV) to emphasize. */
+  highlight?: number;
+  /** Pass-through classes for the outer figure. */
+  class?: string;
+  /** Floating top-right capsule. Pass null to hide; omit for the variant default. */
+  badge?: string | null;
+}
+const { variant = 'fitment', highlight = 0, class: className = '', badge } = Astro.props;
+
+const BADGES: Record<string, string> = {
+  fitment: 'VIN & plate lookup',
+  pdp: 'Themed to your store',
+  'in-cart': 'Travels to fulfillment',
+  'catalog-sync': 'Full or incremental',
+  'price-inventory': 'Auto-hides out of stock',
+  'order-export': 'Routed by SKU pattern',
+  'data-sources': 'One source of truth',
+  toolkit: 'Six jobs, one install',
+  shopify: 'Online Store 2.0',
+  merchant: 'Tax handled for you',
+  about: 'One install per store',
+  pricing: 'Two simple tiers',
+};
+const LABELS: Record<string, string> = {
+  fitment: 'Vehicle qualifiers narrowing to a set of matching parts',
+  pdp: 'A product page enriched with a fitment banner, tabs, and an attribute table',
+  'in-cart': 'A selected vehicle traveling from cart to checkout to the order',
+  'catalog-sync': 'Source records syncing into structured Shopify products',
+  'price-inventory': 'Price and stock rows updating, with out-of-stock items hidden',
+  'order-export': 'One order routed to email, FTP, and API destinations',
+  'data-sources': 'Multiple data formats converging into one catalog',
+  toolkit: 'One toolkit connected to six product modules',
+  shopify: 'SPT modules stacked on the Shopify platform',
+  merchant: 'Sales tax collected at checkout and remitted',
+  about: 'A focused network around a single core',
+  pricing: 'Two pricing tiers with Pro emphasized',
+};
+const resolvedBadge = badge === undefined ? (BADGES[variant] ?? null) : badge;
+const label = LABELS[variant] ?? 'Illustration';
+---
+
+<figure
+  class:list={['hero-visual relative isolate overflow-hidden rounded-2xl border', className]}
+  style="border-color: var(--border); background: linear-gradient(160deg, var(--primary-soft), var(--surface-2) 70%)"
+>
+  <!-- Decorative backdrop -->
+  <svg class="absolute inset-0 -z-10 h-full w-full" viewBox="0 0 500 440" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+    <defs>
+      <radialGradient id="hv-glow" cx="28%" cy="22%" r="80%">
+        <stop offset="0%" stop-color="var(--primary)" stop-opacity="0.28" />
+        <stop offset="55%" stop-color="var(--primary)" stop-opacity="0.06" />
+        <stop offset="100%" stop-color="var(--primary)" stop-opacity="0" />
+      </radialGradient>
+      <pattern id="hv-dots" width="22" height="22" patternUnits="userSpaceOnUse">
+        <circle cx="1.6" cy="1.6" r="1.6" fill="var(--text-subtle)" opacity="0.16" />
+      </pattern>
+    </defs>
+    <rect width="500" height="440" fill="url(#hv-dots)" />
+    <rect width="500" height="440" fill="url(#hv-glow)" />
+    <circle cx="445" cy="395" r="130" fill="var(--action)" opacity="0.07" />
+    <circle cx="70" cy="55" r="95" fill="var(--spark)" opacity="0.06" />
+  </svg>
+
+  <!-- Foreground -->
+  <div class="relative flex min-h-[22rem] items-center justify-center p-6 sm:p-8">
+    {resolvedBadge && (
+      <span
+        class="absolute right-5 top-5 z-10 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold shadow-md"
+        style="background: var(--surface); color: var(--text); border: 1px solid var(--border)"
+      >
+        <span class="inline-block h-1.5 w-1.5 rounded-full" style="background: var(--spark)"></span>
+        {resolvedBadge}
+      </span>
+    )}
+
+    <slot>
+      <svg class="w-full max-w-md drop-shadow-sm" viewBox="0 0 440 360" fill="none" role="img" aria-label={label}>
+        <defs>
+          <filter id="hv-card" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#000" flood-opacity="0.12" />
+          </filter>
+          <marker id="hv-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+            <path d="M0 1 L9 5 L0 9 z" fill="var(--primary)" />
+          </marker>
+        </defs>
+
+        {/* ============ FITMENT ============ */}
+        {variant === 'fitment' && (
+          <g>
+            {[
+              { x: 24, y: 60, w: 214, dot: 'var(--spark)', fill: 110 },
+              { x: 44, y: 120, w: 178, dot: 'var(--action)', fill: 86 },
+              { x: 64, y: 180, w: 146, dot: 'var(--primary)', fill: 62 },
+            ].map((p) => (
+              <g filter="url(#hv-card)">
+                <rect x={p.x} y={p.y} width={p.w} height="44" rx="14" fill="var(--surface)" stroke="var(--border)" />
+                <circle cx={p.x + 24} cy={p.y + 22} r="7" fill={p.dot} />
+                <rect x={p.x + 42} y={p.y + 15} width={p.fill} height="14" rx="7" fill="var(--primary-soft)" />
+              </g>
+            ))}
+            <g stroke="var(--primary)" stroke-width="2" opacity="0.45">
+              <path d="M210 202 C 268 202 268 96 300 96" />
+              <path d="M210 202 C 272 202 272 144 300 144" />
+              <path d="M210 202 C 268 202 268 192 300 192" />
+              <circle cx="210" cy="202" r="4" fill="var(--primary)" stroke="none" />
+            </g>
+            {[
+              { x: 300, y: 78, fit: true, check: false },
+              { x: 360, y: 78, fit: false, check: false },
+              { x: 300, y: 126, fit: false, check: false },
+              { x: 360, y: 126, fit: true, check: false },
+              { x: 300, y: 174, fit: true, check: true },
+              { x: 360, y: 174, fit: false, check: false },
+            ].map((t) => (
+              <g filter={t.fit ? 'url(#hv-card)' : undefined} opacity={t.fit ? 1 : 0.55}>
+                <rect x={t.x} y={t.y} width="50" height="36" rx="9" fill={t.fit ? 'var(--primary-soft)' : 'var(--surface)'} stroke={t.fit ? 'var(--primary)' : 'var(--border)'} />
+                {t.check ? (
+                  <path d={`M${t.x + 17} ${t.y + 18} l4 4 8 -8`} stroke="var(--primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+                ) : (
+                  <circle cx={t.x + 25} cy={t.y + 18} r="4" fill={t.fit ? 'var(--primary)' : 'var(--text-subtle)'} />
+                )}
+              </g>
+            ))}
+            <g filter="url(#hv-card)">
+              <rect x="64" y="274" width="232" height="48" rx="16" fill="var(--surface)" stroke="var(--border)" />
+              <circle cx="92" cy="298" r="14" fill="var(--primary)" />
+              <path d="M86 298 l4 4 8 -8" stroke="var(--primary-fg)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+              <rect x="118" y="291" width="156" height="14" rx="7" fill="var(--primary-soft)" />
+              <rect x="118" y="291" width="104" height="14" rx="7" fill="var(--primary)" />
+            </g>
+          </g>
+        )}
+
+        {/* ============ PDP ENRICHMENT ============ */}
+        {variant === 'pdp' && (
+          <g>
+            {/* product summary card */}
+            <g filter="url(#hv-card)">
+              <rect x="34" y="84" width="132" height="192" rx="14" fill="var(--surface)" stroke="var(--border)" />
+              <rect x="50" y="100" width="100" height="74" rx="8" fill="var(--primary-soft)" />
+              <circle cx="74" cy="132" r="13" fill="var(--primary)" opacity="0.55" />
+              <path d="M50 168 l28 -22 18 14 18 -16 36 24" stroke="var(--primary)" stroke-width="2" opacity="0.4" fill="none" />
+              <rect x="50" y="188" width="92" height="9" rx="4.5" fill="var(--text-subtle)" opacity="0.35" />
+              <rect x="50" y="206" width="64" height="8" rx="4" fill="var(--text-subtle)" opacity="0.25" />
+              <rect x="50" y="244" width="44" height="16" rx="8" fill="var(--primary)" />
+            </g>
+            {/* fitment status banner */}
+            <g filter="url(#hv-card)">
+              <rect x="188" y="84" width="218" height="40" rx="12" fill="var(--primary-soft)" stroke="var(--primary)" />
+              <circle cx="210" cy="104" r="11" fill="var(--primary)" />
+              <path d="M205 104 l3.5 3.5 6.5 -6.5" stroke="var(--primary-fg)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+              <rect x="230" y="99" width="120" height="10" rx="5" fill="var(--primary)" opacity="0.6" />
+            </g>
+            {/* tabs */}
+            {[
+              { x: 188, active: true },
+              { x: 260, active: false },
+              { x: 332, active: false },
+            ].map((tb) => (
+              <g>
+                <rect x={tb.x} y="140" width="64" height="26" rx="8" fill={tb.active ? 'var(--primary-soft)' : 'var(--surface)'} stroke={tb.active ? 'var(--primary)' : 'var(--border)'} />
+                <rect x={tb.x + 14} y="150" width="36" height="7" rx="3.5" fill={tb.active ? 'var(--primary)' : 'var(--text-subtle)'} opacity={tb.active ? 0.7 : 0.35} />
+              </g>
+            ))}
+            {/* attribute table */}
+            <g filter="url(#hv-card)">
+              <rect x="188" y="180" width="218" height="96" rx="12" fill="var(--surface)" stroke="var(--border)" />
+              {[0, 1, 2, 3].map((i) => (
+                <g>
+                  <rect x="204" y={196 + i * 20} width="78" height="8" rx="4" fill="var(--text-subtle)" opacity="0.3" />
+                  <rect x="316" y={196 + i * 20} width="74" height="8" rx="4" fill="var(--text)" opacity="0.32" />
+                  {i < 3 && <line x1="204" y1={210 + i * 20} x2="390" y2={210 + i * 20} stroke="var(--border)" />}
+                </g>
+              ))}
+            </g>
+          </g>
+        )}
+
+        {/* ============ IN-CART FITMENT ============ */}
+        {variant === 'in-cart' && (
+          <g>
+            {/* selected vehicle token */}
+            <g filter="url(#hv-card)">
+              <rect x="128" y="42" width="184" height="46" rx="23" fill="var(--surface)" stroke="var(--primary)" stroke-width="2" />
+              <g stroke="var(--primary)" stroke-width="2" fill="none">
+                <path d="M152 70 h28 l-4 -11 h-16 z" />
+                <circle cx="158" cy="72" r="3.5" fill="var(--primary)" />
+                <circle cx="174" cy="72" r="3.5" fill="var(--primary)" />
+              </g>
+              <rect x="196" y="58" width="96" height="14" rx="7" fill="var(--primary-soft)" />
+            </g>
+            {/* down arrows between stages */}
+            <g stroke="var(--primary)" stroke-width="2" opacity="0.5">
+              <path d="M220 92 V104" marker-end="url(#hv-arrow)" />
+              <path d="M220 166 V178" marker-end="url(#hv-arrow)" />
+              <path d="M220 240 V252" marker-end="url(#hv-arrow)" />
+            </g>
+            {/* journey stages: cart -> checkout -> order */}
+            {[
+              { y: 108, icon: 'var(--spark)', last: false },
+              { y: 182, icon: 'var(--action)', last: false },
+              { y: 256, icon: 'var(--primary)', last: true },
+            ].map((s) => (
+              <g filter="url(#hv-card)">
+                <rect x="92" y={s.y} width="256" height="56" rx="13" fill={s.last ? 'var(--primary-soft)' : 'var(--surface)'} stroke={s.last ? 'var(--primary)' : 'var(--border)'} />
+                <rect x="108" y={s.y + 16} width="24" height="24" rx="7" fill={s.icon} opacity="0.85" />
+                <rect x="146" y={s.y + 18} width="70" height="8" rx="4" fill="var(--text-subtle)" opacity="0.35" />
+                <rect x="146" y={s.y + 32} width="44" height="6" rx="3" fill="var(--text-subtle)" opacity="0.25" />
+                {/* vehicle tag travels along */}
+                <rect x="256" y={s.y + 16} width="76" height="24" rx="12" fill="var(--primary-soft)" stroke="var(--primary)" />
+                {s.last ? (
+                  <path d={`M268 ${s.y + 28} l4 4 8 -8`} stroke="var(--primary)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+                ) : (
+                  <circle cx="270" cy={s.y + 28} r="4" fill="var(--primary)" />
+                )}
+                <rect x="282" y={s.y + 24} width="40" height="7" rx="3.5" fill="var(--primary)" opacity="0.5" />
+              </g>
+            ))}
+          </g>
+        )}
+
+        {/* ============ CATALOG SYNC ============ */}
+        {variant === 'catalog-sync' && (
+          <g>
+            {/* stacked source records */}
+            <rect x="46" y="100" width="116" height="96" rx="12" fill="var(--surface)" stroke="var(--border)" opacity="0.45" />
+            <rect x="38" y="110" width="116" height="96" rx="12" fill="var(--surface)" stroke="var(--border)" opacity="0.7" />
+            <g filter="url(#hv-card)">
+              <rect x="30" y="120" width="116" height="96" rx="12" fill="var(--surface)" stroke="var(--border)" />
+              {[0, 1, 2, 3].map((i) => (
+                <rect x="46" y={138 + i * 18} width={i === 1 ? 84 : 64} height="8" rx="4" fill="var(--text-subtle)" opacity="0.32" />
+              ))}
+            </g>
+            {/* sync arrows */}
+            <g stroke="var(--primary)" stroke-width="2.5" opacity="0.55">
+              <path d="M158 154 H206" marker-end="url(#hv-arrow)" />
+              <path d="M206 182 H158" marker-end="url(#hv-arrow)" />
+            </g>
+            {/* product grid */}
+            {[
+              { x: 250, y: 110, fit: true, check: false },
+              { x: 326, y: 110, fit: false, check: false },
+              { x: 250, y: 176, fit: true, check: true },
+              { x: 326, y: 176, fit: true, check: false },
+            ].map((t) => (
+              <g filter={t.fit ? 'url(#hv-card)' : undefined} opacity={t.fit ? 1 : 0.55}>
+                <rect x={t.x} y={t.y} width="66" height="56" rx="10" fill={t.fit ? 'var(--primary-soft)' : 'var(--surface)'} stroke={t.fit ? 'var(--primary)' : 'var(--border)'} />
+                <rect x={t.x + 10} y={t.y + 10} width="16" height="16" rx="4" fill={t.fit ? 'var(--primary)' : 'var(--text-subtle)'} opacity={t.fit ? 0.9 : 0.5} />
+                <rect x={t.x + 10} y={t.y + 34} width="44" height="6" rx="3" fill="var(--text-subtle)" opacity="0.3" />
+                {t.check && <path d={`M${t.x + 34} ${t.y + 16} l4 4 8 -8`} stroke="var(--primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />}
+              </g>
+            ))}
+            {/* summary bar */}
+            <g filter="url(#hv-card)">
+              <rect x="64" y="282" width="232" height="22" rx="11" fill="var(--surface)" stroke="var(--border)" />
+              <rect x="72" y="287" width="118" height="12" rx="6" fill="var(--primary)" />
+              <rect x="194" y="287" width="58" height="12" rx="6" fill="var(--spark)" />
+              <rect x="256" y="287" width="32" height="12" rx="6" fill="var(--border-strong)" />
+            </g>
+          </g>
+        )}
+
+        {/* ============ PRICE & INVENTORY ============ */}
+        {variant === 'price-inventory' && (
+          <g>
+            {[
+              { y: 92, hidden: false, up: true },
+              { y: 150, hidden: false, up: false },
+              { y: 208, hidden: true, up: false },
+            ].map((r) => (
+              <g filter={r.hidden ? undefined : 'url(#hv-card)'} opacity={r.hidden ? 0.5 : 1}>
+                <rect x="44" y={r.y} width="252" height="44" rx="12" fill="var(--surface)" stroke="var(--border)" />
+                <circle cx="68" cy={r.y + 22} r="6" fill={r.hidden ? 'var(--action)' : 'var(--primary)'} />
+                <rect x="86" y={r.y + 13} width="96" height="8" rx="4" fill="var(--text-subtle)" opacity="0.32" />
+                <rect x="86" y={r.y + 27} width="58" height="6" rx="3" fill="var(--text-subtle)" opacity="0.22" />
+                <rect x="230" y={r.y + 12} width="52" height="20" rx="10" fill="var(--primary-soft)" />
+                <rect x="230" y={r.y + 12} width="30" height="20" rx="10" fill="var(--primary)" />
+                {r.hidden && <path d="M52 214 L288 236" stroke="var(--text-subtle)" stroke-width="2" opacity="0.7" />}
+                {!r.hidden && (
+                  <path
+                    d={r.up ? `M210 ${r.y + 26} l5 -8 5 8` : `M210 ${r.y + 18} l5 8 5 -8`}
+                    stroke={r.up ? 'var(--primary)' : 'var(--action)'}
+                    stroke-width="2.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                )}
+              </g>
+            ))}
+            {/* refresh node */}
+            <g filter="url(#hv-card)">
+              <circle cx="300" cy="74" r="22" fill="var(--surface)" stroke="var(--border)" />
+              <path d="M291 70 a10 10 0 1 1 1 10" fill="none" stroke="var(--primary)" stroke-width="2.5" stroke-linecap="round" marker-end="url(#hv-arrow)" />
+            </g>
+            {/* updated count bar */}
+            <g filter="url(#hv-card)">
+              <rect x="64" y="288" width="232" height="20" rx="10" fill="var(--surface)" stroke="var(--border)" />
+              <rect x="72" y="293" width="216" height="10" rx="5" fill="var(--primary-soft)" />
+              <rect x="72" y="293" width="150" height="10" rx="5" fill="var(--primary)" />
+            </g>
+          </g>
+        )}
+
+        {/* ============ ORDER EXPORT ============ */}
+        {variant === 'order-export' && (
+          <g>
+            {/* order card */}
+            <g filter="url(#hv-card)">
+              <rect x="34" y="120" width="116" height="120" rx="14" fill="var(--surface)" stroke="var(--border)" />
+              <rect x="50" y="138" width="84" height="14" rx="7" fill="var(--primary-soft)" />
+              {[0, 1, 2].map((i) => (
+                <rect x="50" y={166 + i * 18} width={i === 2 ? 50 : 84} height="8" rx="4" fill="var(--text-subtle)" opacity="0.3" />
+              ))}
+              <circle cx="58" cy="226" r="5" fill="var(--primary)" />
+              <rect x="70" y="221" width="64" height="8" rx="4" fill="var(--text-subtle)" opacity="0.3" />
+            </g>
+            {/* router node */}
+            <circle cx="200" cy="180" r="9" fill="var(--action)" />
+            {/* fan-out flows */}
+            <g stroke="var(--primary)" stroke-width="2" opacity="0.45" fill="none">
+              <path d="M150 180 H191" />
+              <path d="M209 180 C 250 180 250 100 296 100" marker-end="url(#hv-arrow)" />
+              <path d="M209 180 H296" marker-end="url(#hv-arrow)" />
+              <path d="M209 180 C 250 180 250 260 296 260" marker-end="url(#hv-arrow)" />
+            </g>
+            {/* destination tiles with glyphs */}
+            {[
+              { y: 76, kind: 'mail', hi: true },
+              { y: 156, kind: 'ftp', hi: false },
+              { y: 236, kind: 'api', hi: false },
+            ].map((d) => (
+              <g filter="url(#hv-card)">
+                <rect x="300" y={d.y} width="96" height="48" rx="12" fill={d.hi ? 'var(--primary-soft)' : 'var(--surface)'} stroke={d.hi ? 'var(--primary)' : 'var(--border)'} />
+                {d.kind === 'mail' && (
+                  <g stroke="var(--primary)" stroke-width="2" fill="none">
+                    <rect x="316" y={d.y + 16} width="28" height="18" rx="3" />
+                    <path d={`M316 ${d.y + 18} l14 9 14 -9`} />
+                  </g>
+                )}
+                {d.kind === 'ftp' && (
+                  <g stroke="var(--text-muted)" stroke-width="2" fill="none">
+                    <path d={`M316 ${d.y + 32} v-12 a3 3 0 0 1 3 -3 h7 l3 4 h8`} />
+                    <path d={`M330 ${d.y + 30} v-8 m-4 4 l4 -4 4 4`} stroke-linecap="round" stroke-linejoin="round" />
+                  </g>
+                )}
+                {d.kind === 'api' && (
+                  <g stroke="var(--text-muted)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path d={`M324 ${d.y + 17} l-7 7 7 7`} />
+                    <path d={`M336 ${d.y + 17} l7 7 -7 7`} />
+                  </g>
+                )}
+                <rect x="352" y={d.y + 18} width="34" height="6" rx="3" fill="var(--text-subtle)" opacity="0.3" />
+                <rect x="352" y={d.y + 28} width="22" height="6" rx="3" fill="var(--text-subtle)" opacity="0.22" />
+              </g>
+            ))}
+          </g>
+        )}
+
+        {/* ============ DATA SOURCES ============ */}
+        {variant === 'data-sources' && (
+          <g>
+            {[
+              { y: 70, kind: 'xml' },
+              { y: 146, kind: 'api' },
+              { y: 222, kind: 'csv' },
+            ].map((s, i) => (
+              <g filter="url(#hv-card)" opacity={highlight === i ? 1 : 0.62}>
+                <rect x="32" y={s.y} width="104" height="60" rx="12" fill={highlight === i ? 'var(--primary-soft)' : 'var(--surface)'} stroke={highlight === i ? 'var(--primary)' : 'var(--border)'} />
+                {s.kind === 'xml' && (
+                  <g stroke="var(--text-muted)" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path d={`M58 ${s.y + 22} l-9 8 9 8`} />
+                    <path d={`M78 ${s.y + 22} l9 8 -9 8`} />
+                  </g>
+                )}
+                {s.kind === 'api' && (
+                  <g stroke="var(--text-muted)" stroke-width="2.5" fill="none">
+                    <path d={`M52 ${s.y + 30} a16 16 0 0 1 32 0`} />
+                    <path d={`M60 ${s.y + 30} a8 8 0 0 1 16 0`} />
+                    <circle cx="68" cy={s.y + 30} r="2.5" fill="var(--text-muted)" stroke="none" />
+                  </g>
+                )}
+                {s.kind === 'csv' && (
+                  <g stroke="var(--text-muted)" stroke-width="2" opacity="0.8">
+                    {[0, 1, 2].map((c) => (
+                      <line x1={56 + c * 14} y1={s.y + 18} x2={56 + c * 14} y2={s.y + 42} />
+                    ))}
+                    {[0, 1].map((rr) => (
+                      <line x1="50" y1={s.y + 24 + rr * 12} x2="86" y2={s.y + 24 + rr * 12} />
+                    ))}
+                  </g>
+                )}
+              </g>
+            ))}
+            {/* converging flows */}
+            <g stroke="var(--primary)" stroke-width="2" opacity="0.45" fill="none">
+              <path d="M136 100 C 210 100 220 180 286 180" marker-end="url(#hv-arrow)" />
+              <path d="M136 176 H286" marker-end="url(#hv-arrow)" />
+              <path d="M136 252 C 210 252 220 180 286 180" marker-end="url(#hv-arrow)" />
+            </g>
+            {/* unified output node */}
+            <g filter="url(#hv-card)">
+              <circle cx="328" cy="180" r="40" fill="var(--surface)" stroke="var(--primary)" stroke-width="2" />
+              <circle cx="328" cy="180" r="40" fill="var(--primary-soft)" opacity="0.5" />
+              <path d="M312 180 l10 10 22 -22" stroke="var(--primary)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+            </g>
+          </g>
+        )}
+
+        {/* ============ TOOLKIT (hub + 6 modules) ============ */}
+        {variant === 'toolkit' && (
+          <g>
+            {[
+              { x: 86, y: 70 },
+              { x: 290, y: 70 },
+              { x: 326, y: 158 },
+              { x: 290, y: 246 },
+              { x: 86, y: 246 },
+              { x: 50, y: 158 },
+            ].map((m, i) => (
+              <g>
+                <line x1="220" y1="180" x2={m.x + 32} y2={m.y + 22} stroke="var(--primary)" stroke-width="1.75" opacity="0.3" />
+                <g filter="url(#hv-card)">
+                  <rect x={m.x} y={m.y} width="64" height="44" rx="11" fill={i % 3 === 0 ? 'var(--primary-soft)' : 'var(--surface)'} stroke={i % 3 === 0 ? 'var(--primary)' : 'var(--border)'} />
+                  <circle cx={m.x + 16} cy={m.y + 22} r="5" fill={i % 3 === 0 ? 'var(--primary)' : 'var(--text-subtle)'} opacity={i % 3 === 0 ? 1 : 0.5} />
+                  <rect x={m.x + 28} y={m.y + 18} width="26" height="7" rx="3.5" fill="var(--text-subtle)" opacity="0.3" />
+                </g>
+              </g>
+            ))}
+            <g filter="url(#hv-card)">
+              <circle cx="220" cy="180" r="38" fill="var(--primary)" />
+              {[
+                [-9, -9],
+                [9, -9],
+                [-9, 9],
+                [9, 9],
+              ].map(([dx, dy]) => (
+                <circle cx={220 + dx} cy={180 + dy} r="5" fill="var(--primary-fg)" />
+              ))}
+            </g>
+          </g>
+        )}
+
+        {/* ============ SHOPIFY (foundation + stacked modules) ============ */}
+        {variant === 'shopify' && (
+          <g>
+            <g filter="url(#hv-card)">
+              <rect x="64" y="244" width="312" height="46" rx="14" fill="var(--primary)" />
+              <rect x="84" y="262" width="120" height="10" rx="5" fill="var(--primary-fg)" opacity="0.85" />
+              <circle cx="350" cy="267" r="6" fill="var(--primary-fg)" opacity="0.85" />
+            </g>
+            {[
+              { x: 110, y: 196, w: 220, hi: false },
+              { x: 134, y: 150, w: 172, hi: false },
+              { x: 158, y: 104, w: 124, hi: true },
+            ].map((b) => (
+              <g filter="url(#hv-card)">
+                <rect x={b.x} y={b.y} width={b.w} height="38" rx="11" fill={b.hi ? 'var(--primary-soft)' : 'var(--surface)'} stroke={b.hi ? 'var(--primary)' : 'var(--border)'} />
+                <circle cx={b.x + 22} cy={b.y + 19} r="6" fill={b.hi ? 'var(--primary)' : 'var(--text-subtle)'} opacity={b.hi ? 1 : 0.5} />
+                <rect x={b.x + 38} y={b.y + 14} width={b.w - 70} height="9" rx="4.5" fill="var(--text-subtle)" opacity="0.3" />
+              </g>
+            ))}
+          </g>
+        )}
+
+        {/* ============ MERCHANT OF RECORD ============ */}
+        {variant === 'merchant' && (
+          <g>
+            {/* receipt card */}
+            <g filter="url(#hv-card)">
+              <rect x="58" y="74" width="176" height="212" rx="14" fill="var(--surface)" stroke="var(--border)" />
+              <rect x="78" y="96" width="92" height="12" rx="6" fill="var(--text)" opacity="0.55" />
+              {[0, 1, 2].map((i) => (
+                <g>
+                  <rect x="78" y={130 + i * 26} width="86" height="8" rx="4" fill="var(--text-subtle)" opacity="0.3" />
+                  <rect x="186" y={130 + i * 26} width="30" height="8" rx="4" fill="var(--text-subtle)" opacity="0.3" />
+                </g>
+              ))}
+              {/* tax line highlighted */}
+              <rect x="70" y="214" width="152" height="24" rx="8" fill="var(--action-soft)" />
+              <rect x="80" y="222" width="60" height="8" rx="4" fill="var(--action)" opacity="0.85" />
+              <rect x="186" y="222" width="30" height="8" rx="4" fill="var(--action)" opacity="0.85" />
+              {/* total */}
+              <rect x="78" y="256" width="64" height="10" rx="5" fill="var(--text)" opacity="0.6" />
+              <rect x="180" y="256" width="36" height="10" rx="5" fill="var(--primary)" />
+            </g>
+            {/* flow to remittance shield */}
+            <path d="M234 180 H300" stroke="var(--primary)" stroke-width="2" opacity="0.45" marker-end="url(#hv-arrow)" />
+            <g filter="url(#hv-card)">
+              <path d="M356 132 l34 14 v26 c0 26 -18 40 -34 48 c-16 -8 -34 -22 -34 -48 v-26 z" fill="var(--primary-soft)" stroke="var(--primary)" stroke-width="2" />
+              <path d="M342 182 l9 9 18 -20" stroke="var(--primary)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+            </g>
+          </g>
+        )}
+
+        {/* ============ ABOUT (focused network) ============ */}
+        {variant === 'about' && (
+          <g>
+            {[
+              { x: 110, y: 86, hi: false },
+              { x: 320, y: 96, hi: true },
+              { x: 360, y: 200, hi: false },
+              { x: 296, y: 286, hi: false },
+              { x: 110, y: 282, hi: false },
+              { x: 64, y: 178, hi: false },
+            ].map((n) => (
+              <line x1="220" y1="186" x2={n.x} y2={n.y} stroke="var(--primary)" stroke-width="1.75" opacity="0.28" />
+            ))}
+            {[
+              { x: 110, y: 86 },
+              { x: 320, y: 96 },
+              { x: 360, y: 200 },
+              { x: 296, y: 286 },
+              { x: 110, y: 282 },
+              { x: 64, y: 178 },
+            ].map((n, i) => (
+              <g filter="url(#hv-card)">
+                <circle cx={n.x} cy={n.y} r="13" fill={i === 1 ? 'var(--primary-soft)' : 'var(--surface)'} stroke={i === 1 ? 'var(--primary)' : 'var(--border)'} />
+                <circle cx={n.x} cy={n.y} r="4.5" fill={i === 1 ? 'var(--primary)' : 'var(--text-subtle)'} opacity={i === 1 ? 1 : 0.5} />
+              </g>
+            ))}
+            <g filter="url(#hv-card)">
+              <circle cx="220" cy="186" r="30" fill="var(--primary)" />
+              <circle cx="220" cy="186" r="9" fill="var(--primary-fg)" />
+            </g>
+          </g>
+        )}
+
+        {/* ============ PRICING (two tiers) ============ */}
+        {variant === 'pricing' && (
+          <g>
+            {/* Free tier */}
+            <g filter="url(#hv-card)">
+              <rect x="84" y="150" width="116" height="140" rx="16" fill="var(--surface)" stroke="var(--border)" />
+              <rect x="104" y="170" width="44" height="12" rx="6" fill="var(--text-subtle)" opacity="0.4" />
+              <rect x="104" y="194" width="60" height="16" rx="8" fill="var(--text)" opacity="0.5" />
+              {[0, 1, 2].map((i) => (
+                <rect x="104" y={228 + i * 18} width={i === 2 ? 52 : 76} height="7" rx="3.5" fill="var(--text-subtle)" opacity="0.3" />
+              ))}
+            </g>
+            {/* Pro tier (emphasized) */}
+            <g filter="url(#hv-card)">
+              <rect x="232" y="108" width="124" height="182" rx="16" fill="var(--primary-soft)" stroke="var(--primary)" stroke-width="2" />
+              <path d="M294 120 l4.5 9 10 1.5 -7.5 7 2 10 -9 -5 -9 5 2 -10 -7.5 -7 10 -1.5 z" fill="var(--spark)" />
+              <rect x="254" y="150" width="48" height="12" rx="6" fill="var(--primary)" opacity="0.85" />
+              <rect x="254" y="174" width="68" height="18" rx="9" fill="var(--primary)" />
+              {[0, 1, 2, 3].map((i) => (
+                <rect x="254" y={212 + i * 18} width={i === 3 ? 56 : 80} height="7" rx="3.5" fill="var(--primary)" opacity="0.4" />
+              ))}
+            </g>
+          </g>
+        )}
+      </svg>
+    </slot>
+  </div>
+</figure>

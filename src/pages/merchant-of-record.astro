@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import DualCTA from '../components/DualCTA.astro';
+import HeroVisual from '../components/HeroVisual.astro';
 import JsonLd from '../components/JsonLd.astro';
 
 const service = {
@@ -28,17 +29,17 @@ const benefits = [
   },
   {
     title: 'Reduced Liability',
-    body: "Your existing businesses and services remain isolated from additional tax obligations you'd incur by selling online directly. Internal processes and accounts stay the same.",
+    body: "Your existing businesses and services remain isolated from additional tax obligations you'd incur by selling online directly. Internal processes and accounts stay the same. Why open up your business to new liabilities when you can have a partner take them on for you?",
   },
 ];
 
 const faqs = [
-  { q: 'Who is providing the merchant services when using your Merchant of Record service?', a: 'We use Shopify (via Shop Pay). If any third parties are involved, we\'ll confirm.' },
+  { q: 'Who is providing the merchant services when using your Merchant of Record service?', a: 'We use Shopify (via Shop Pay) & Stripe. Experienced and trusted payment providers.' },
   { q: 'What payment methods are available?',                                                a: 'Credit cards are enabled by default. Additional Shopify-supported payment methods can be added.' },
   { q: 'Will there be reports on payments made to my store?',                                a: 'Yes. We provide a monthly reconciliation report that details sales, sales tax, and fees.' },
-  { q: 'Who do customers actually pay?',                                                     a: 'Customers pay us, SPT, directly. We then remit one consolidated payment to you along with the reconciliation report. Similar to how eBay works if you sell through eBay.' },
+  { q: 'Who do customers actually pay?',                                                     a: 'Customers pay us, SPT, directly as the merchant of record. We then remit one consolidated payment to you along with the reconciliation report. Similar to how eBay works if you sell through eBay.' },
   { q: 'Who collects and remits payments?',                                                  a: 'We handle collection, processing fees, and sales tax — then remit a single monthly payment to you along with a reconciliation report.' },
-  { q: 'Will customers receive an invoice for their purchase?',                              a: 'Customers receive an order receipt by email from Shopify.' },
+  { q: 'Will customers receive an invoice for their purchase?',                              a: 'Customers receive an order receipt by email from Shopify just like any other purchase with your branding and support content information. The customer relationship stays with you.' },
 ];
 ---
 
@@ -50,19 +51,26 @@ const faqs = [
 
 
   <section class="section pt-12 sm:pt-20">
-    <p class="text-xs font-semibold uppercase tracking-[0.18em]" style="color: var(--action)">
-      Merchant of Record
-    </p>
-    <h1 class="mt-3 max-w-4xl text-4xl font-extrabold leading-[1.1] tracking-tight sm:text-5xl lg:text-6xl" style="color: var(--text)">
-      Sales tax, simplified.
-    </h1>
-    <p class="lede mt-5 max-w-3xl">
-      Reduce sales tax headaches so you can focus on growing your automotive parts business. SPT becomes the seller
-      of record on your store — we collect, remit, and report sales tax across US jurisdictions; you receive
-      consolidated monthly payouts.
-    </p>
-    <div class="mt-8">
-      <a href="/demo/" class="btn btn-primary">Book a Demo</a>
+    <div class="grid items-center gap-10 lg:grid-cols-12">
+      <div class="lg:col-span-7">
+        <p class="text-xs font-semibold uppercase tracking-[0.18em]" style="color: var(--action)">
+          Merchant of Record
+        </p>
+        <h1 class="mt-3 text-4xl font-extrabold leading-[1.1] tracking-tight sm:text-5xl lg:text-6xl" style="color: var(--text)">
+          Sales tax, done for you.
+        </h1>
+        <p class="lede mt-5 max-w-2xl">
+          Reduce sales tax headaches so you can focus on growing your automotive parts business. SPT becomes the seller
+          of record on your store — we collect, remit, and report sales tax across US jurisdictions; you receive
+          consolidated monthly payouts, just like your existing distributors or marketplaces like eBay.
+        </p>
+        <div class="mt-8">
+          <a href="/demo/" class="btn btn-primary">Book a Demo</a>
+        </div>
+      </div>
+      <div class="lg:col-span-5">
+        <HeroVisual variant="merchant" />
+      </div>
     </div>
   </section>
 
@@ -70,7 +78,7 @@ const faqs = [
     <div class="section">
       <h2 class="text-2xl font-bold tracking-tight sm:text-3xl">What is a Merchant of Record?</h2>
       <p class="lede mt-4 max-w-3xl">
-        Using a Merchant of Record service effectively outsources the transaction process. Your customer purchases
+        Using a Merchant of Record service effectively outsources the payment transaction process. Your customer purchases
         from us; we then pay you as the supplier, minus our fees. The entire customer experience stays branded as
         your company.
       </p>

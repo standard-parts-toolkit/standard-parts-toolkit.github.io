@@ -1,6 +1,7 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 import DualCTA from '../components/DualCTA.astro';
+import HeroVisual from '../components/HeroVisual.astro';
 
 interface Step { step: string; body: string; }
 interface Faq  { q: string; a: string; }
@@ -17,6 +18,8 @@ interface Props {
   heroImageAlt?: string;
   /** Optional caption under the hero screenshot */
   heroCaption?: string;
+  /** Optional abstract hero illustration (HeroVisual variant). Used when there's no screenshot. */
+  heroVisual?: string;
   howItWorks: Step[];
   configurable: string[];
   /** Short paragraph naming the data sources that power this feature */
@@ -35,6 +38,7 @@ const {
   heroImage,
   heroImageAlt,
   heroCaption = 'Annotated product screenshot.',
+  heroVisual,
   howItWorks,
   configurable,
   dataSources,
@@ -48,8 +52,8 @@ const {
 
   <!-- HERO -->
   <section class="section pt-12 sm:pt-20">
-    <div class={heroImage ? 'grid items-center gap-10 lg:grid-cols-12' : ''}>
-      <div class={heroImage ? 'lg:col-span-7' : 'max-w-4xl'}>
+    <div class={heroImage || heroVisual ? 'grid items-center gap-10 lg:grid-cols-12' : ''}>
+      <div class={heroImage || heroVisual ? 'lg:col-span-7' : 'max-w-4xl'}>
         <div class="flex flex-wrap items-center gap-3">
           <p class="text-xs font-semibold uppercase tracking-[0.18em]" style="color: var(--action)">{eyebrow}</p>
           {isNew && <span class="tag tag-action">New</span>}
@@ -60,7 +64,7 @@ const {
         <p class="lede mt-5 max-w-2xl">{subhead}</p>
         <div class="mt-8"><DualCTA variant="inline" showDemoLink={false} /></div>
       </div>
-      {heroImage && (
+      {heroImage ? (
         <div class="lg:col-span-5">
           <figure class="overflow-hidden rounded-2xl border" style="border-color: var(--border); background: var(--surface)">
             <img
@@ -75,7 +79,11 @@ const {
             <figcaption class="px-4 py-3 text-sm" style="color: var(--text-muted)">{heroCaption}</figcaption>
           </figure>
         </div>
-      )}
+      ) : heroVisual ? (
+        <div class="lg:col-span-5">
+          <HeroVisual variant={heroVisual} />
+        </div>
+      ) : null}
     </div>
   </section>
 

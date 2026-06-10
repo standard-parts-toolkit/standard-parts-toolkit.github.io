@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import DualCTA from '../../components/DualCTA.astro';
+import HeroVisual from '../../components/HeroVisual.astro';
 
 const sources = [
   {
@@ -39,17 +40,24 @@ const channels = [
 >
 
   <section class="section pt-12 sm:pt-20">
-    <p class="text-xs font-semibold uppercase tracking-[0.18em]" style="color: var(--action)">
-      Data sources &amp; channels
-    </p>
-    <h1 class="mt-3 max-w-4xl text-4xl font-extrabold leading-[1.1] tracking-tight sm:text-5xl lg:text-6xl" style="color: var(--text)">
-      Bring the data you already have. Stop duplicating effort.
-    </h1>
-    <p class="lede mt-5 max-w-3xl">
-      SPT is data-source agnostic. Pick the catalog source that matches how you operate today, and connect to the
-      ingestion and export channels your supply chain already speaks. Switch sources later without rebuilding your
-      storefront — your YMM widget, PDP blocks, and admin settings carry over.
-    </p>
+    <div class="grid items-center gap-10 lg:grid-cols-12">
+      <div class="lg:col-span-7">
+        <p class="text-xs font-semibold uppercase tracking-[0.18em]" style="color: var(--action)">
+          Data sources &amp; channels
+        </p>
+        <h1 class="mt-3 text-4xl font-extrabold leading-[1.1] tracking-tight sm:text-5xl lg:text-6xl" style="color: var(--text)">
+          Bring the data you already have. Stop duplicating effort.
+        </h1>
+        <p class="lede mt-5 max-w-2xl">
+          SPT is data-source agnostic. Pick the catalog source that matches how you operate today, and connect to the
+          ingestion and export channels your supply chain already speaks. Switch sources later without rebuilding your
+          storefront — your YMM widget, PDP blocks, and admin settings carry over.
+        </p>
+      </div>
+      <div class="lg:col-span-5">
+        <HeroVisual variant="data-sources" />
+      </div>
+    </div>
   </section>
 
   <section class="section pt-0">
